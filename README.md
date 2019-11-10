@@ -15,7 +15,7 @@ This setup runs on a Raspberry Pi 3 with Docker and Docker Compose. See https://
 ## Get the stack (only once):
 
 ```
-git clone https://github.com/earlhickey/home-assitant-pi.git
+git clone https://github.com/earlhickey/home-assistant-pi.git
 cd home-assistant-pi
 docker pull homeassistant/raspberrypi3-homeassistant
 docker pull influxdb

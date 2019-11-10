@@ -1,0 +1,15 @@
+sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power:
+  ignored: false
+  polling_intensity: 0
+sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy:
+  ignored: false
+  polling_intensity: 0
+sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature:
+  ignored: false
+  polling_intensity: 0
+climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1:
+  ignored: false
+  polling_intensity: 0
+sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_exporting:
+  ignored: false
+  polling_intensity: 0

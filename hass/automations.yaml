@@ -1,0 +1,94 @@
+# Turn on outside lights after sunset
+- alias: Buiten licht aan 30 min. na zonsondergang
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: '+00:30:00'
+  condition:
+    - condition: time
+      after: '17:00:00'
+      before: '22:00:00'
+  action:
+    - service: light.turn_on
+      entity_id: light.tuin
+
+# Turn off outside lights
+- alias: Buiten licht uit om 22:30
+  trigger:
+    - at: '22:30:00'
+      platform: time
+  action:
+    - service: light.turn_off
+      entity_id: light.tuin
+
+# Kichen heater on
+- alias: Kichen heating on, mon to fri 6:00
+  trigger:
+    - platform: time
+      at: '06:00:00'
+  condition:
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        #- fri
+        #- sat
+        #- sun
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+        temperature: 19
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+        hvac_mode: 'heat'
+    # Refresh entity to update UI
+    - service: script.refresh_qubino_thermostat
+
+# Kichen heater off
+- alias: Kichen heating off 8:00 / 20:00
+  trigger:
+    - platform: time
+      at: '08:00:00'
+    - platform: time
+      at: '20:00:00'
+  # set condition on weekdays only
+  action:
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+        hvac_mode: 'off'
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+        temperature: 16
+    # Refresh entity to update UI
+    - service: script.refresh_qubino_thermostat
+
+# Refresh qubino thermostat on target temperature change
+# This is needed to update targer temp in widget
+- alias: Qubino update
+  trigger:
+    - platform: event
+      event_type: call_service
+      event_data:
+        domain: climate
+        service: set_temperature
+  action:
+    # Refresh entity to update UI
+    - service: script.refresh_qubino_thermostat
+
+
+# CUBINO
+# climate.set_aux_heat
+# climate.set_fan_mode
+# climate.set_humidity
+# climate.set_hvac_mode
+# climate.set_preset_mode
+# climate.set_swing_mode
+# climate.set_temperature
+# climate.set_turn_off
+# climate.set_turn_on

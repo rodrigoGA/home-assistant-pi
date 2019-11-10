@@ -1,0 +1,64 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: home-assistant
+    image: homeassistant/raspberrypi3-homeassistant:latest
+    volumes:
+      # Data persistency
+      - ./hass:/config
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - TZ=Europe/Amsterdam
+    restart: always
+    network_mode: host
+
+  influxdb:
+    container_name: influxdb
+    image: influxdb:latest
+    ports:
+      - 8086:8086
+    volumes:
+      # Data persistency
+      - ./influxdb:/var/lib/influxdb
+    restart: always
+    network_mode: host
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:5.4.3
+    ports:
+      - 3000:3000
+    volumes:
+      # Data persistency
+      # sudo chown 472:472 ./grafana
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - influxdb
+    restart: always
+    network_mode: host
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'Europe/Amsterdam'
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    # Volumes store your data between container upgrades
+    volumes:
+      # Data persistency
+      - './pi-hole/etc-pihole/:/etc/pihole/'
+      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    dns:
+      - 127.0.0.1
+    # Recommended but not required (DHCP needs NET_ADMIN)
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

@@ -10,6 +10,8 @@ services:
       - /dev/ttyACM0:/dev/ttyACM0
     environment:
       - TZ=Europe/Amsterdam
+    depends_on:
+      - influxdb
     restart: always
     network_mode: host
 
@@ -18,6 +20,8 @@ services:
     image: influxdb:latest
     ports:
       - 8086:8086
+    environment:
+      INFLUXDB_DB: home_assistant
     volumes:
       # Data persistency
       - ./influxdb:/var/lib/influxdb

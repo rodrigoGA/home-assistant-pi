@@ -25,10 +25,12 @@ docker pull pihole/pihole
 
 ## Update settings (only once):
 
+Grafana user 742 needs access to data folder
 ```
 sudo chown 472:472 ./grafana
 ```
 
+Copy and adjust secrets file
 ```
 cp hass/secrets_example.yaml hass/secrets.yaml
 vi hass/secrets.yaml

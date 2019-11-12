@@ -26,9 +26,12 @@ docker pull pihole/pihole
 ## Update settings (only once):
 
 ```
-cd hass
-cp secrets_example.yaml secrets.yaml
-vi secrets.yaml
+sudo chown 472:472 ./grafana
+```
+
+```
+cp hass/secrets_example.yaml hass/secrets.yaml
+vi hass/secrets.yaml
 ```
 
 ## Run your stack:
@@ -66,3 +69,14 @@ docker pull pihole/pihole
 ```
 docker exec -it influxdb /bin/bash
 ```
+
+## Url's:
+
+Home Assistant
+http://home.assistant:8123/
+
+Grafana (admin/admin)
+http://home.assistant:3000/
+
+Pi-hole
+http://home.assistant/admin/

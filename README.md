@@ -12,6 +12,16 @@ Pi-hole blocks ads network wide or per host. It can also be used as local DNS se
 
 This setup runs on a Raspberry Pi 3 with Docker and Docker Compose. See https://github.com/earlhickey/raspberry-pi_setup_with_docker for a quick setup.
 
+## Hardware
+
+* Raspbery Pi 3 + 16GB SD
+* Z-Wave USB Stick (ZMEEUZB1) by Z-Wave.ME
+* Qubino ZMNHID1 Flush on/Off Thermostat
+* Philps Hue Bridge
+* Philps Hue Dimmer switch
+* Philps Hue White ambiance 3x
+* Philps Hue White 2x
+
 ## Get the stack (only once):
 
 ```
@@ -82,3 +92,9 @@ http://home.assistant:3000/
 
 Pi-hole
 http://home.assistant/admin/
+
+Set or reset web interface password
+```
+docker exec -it pihole_container_name pihole -a -p
+```
+

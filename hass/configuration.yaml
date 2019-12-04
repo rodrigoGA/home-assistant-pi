@@ -65,8 +65,9 @@ media_player:
     port: 8001
     name: The Frame
 
-# Buienradar
+# Sensors
 sensor:
+  # Buienradar
   - platform: buienradar
     monitored_conditions:
       - symbol
@@ -74,6 +75,18 @@ sensor:
       - temperature
       - windforce
       - winddirection
+  # System Monitor
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /home
+      - type: disk_free
+        arg: /
+      - type: memory_free
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+      - type: last_boot
 
 # Text to speech
 tts:

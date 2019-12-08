@@ -11,6 +11,17 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+# Set interface to manual in ui-lovelace.yaml
+lovelace:
+  mode: yaml
+
+# Sidebar
+panel_iframe:
+  grafana:
+    title: 'Grafana'
+    icon: mdi:chart-line
+    url: 'http://home.assistant:3000/'
+
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:
 #   base_url: example.duckdns.org:8123
@@ -87,6 +98,10 @@ sensor:
       - type: load_5m
       - type: load_15m
       - type: last_boot
+  # DSMR
+  # - platform: dsmr
+  #   port: /dev/ttyUSB0
+  #   dsmr_version: 2.2
 
 # Text to speech
 tts:

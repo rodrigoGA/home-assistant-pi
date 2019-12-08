@@ -8,6 +8,7 @@ services:
       - ./hass:/config
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
+      #- /dev/ttyUSB0:/dev/ttyUSB0
     environment:
       - TZ=Europe/Amsterdam
     depends_on:

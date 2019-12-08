@@ -1,0 +1,106 @@
+title: My Awesome Home
+views:
+  # View tab title.
+  - title: Home
+    path: home
+    icon: mdi:home-heart
+    # badges:
+    #   - binary_sensor.updater
+    #   - person.patrick_groot
+    #   - sun.sun
+    cards:
+      - type: entities
+        entities:
+          - entity: input_select.occupancy
+      - type: thermostat
+        entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+      - type: weather-forecast
+        entity: weather.home
+      - type: glance
+        title: Weather
+        entities:
+          - entity: sensor.br_wind_force
+            name: Wind force
+          - entity: sensor.br_wind_direction
+            name: Wind direction
+          - entity: sensor.br_symbol
+            name: Symbol
+          - entity: sensor.br_humidity
+            name: Humidity
+          - entity: sensor.br_temperature
+            name: Temperature
+      - type: entities
+        title: Automations
+        show_header_toggle: false
+        entities:
+          - entity: automation.kichen_heating_on_mon_to_fri_6_00
+          - entity: automation.kichen_heating_off_8_00_20_00
+          - entity: automation.buiten_licht_aan_30_min_na_zonsondergang
+          - entity: automation.buiten_licht_uit_om_22_30
+      - type: entities
+        title: Kitchen
+        show_header_toggle: false
+        entities:
+          - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power
+            icon: mdi:power-plug
+          - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy
+            icon: mdi:power-plug
+      - type: history-graph
+        entities:
+          - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature
+          - entity: sensor.br_temperature
+        hours_to_show: 24
+        refresh_interval: 0
+      - type: iframe
+        aspect_ratio: 50%
+        url: >-
+          https://embed.windy.com/embed2.html?lat=52.380&lon=4.881&zoom=10&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=52.380&detailLon=4.881&metricWind=default&metricTemp=default&radarRange=-1
+
+  - title: Lights
+    path: lights
+    icon: 'mdi:lightbulb-on'
+    cards:
+      # Light groups
+      - type: entities
+        title: Licht
+        show_header_toggle: false
+        entities:
+          - light.woonkamer
+          - light.tuin
+      # Individual lights
+      - type: light
+        entity: light.eettafel
+      - type: light
+        entity: light.bank
+      - type: light
+        entity: light.driepoot
+      - type: light
+        entity: light.steeg
+      - type: light
+        entity: light.patio
+  - title: Media
+    path: media
+    icon: mdi:speaker
+    cards:
+      - type: media-control
+        entity: media_player.living_room
+      - type: media-control
+        entity: media_player.media_room
+  - title: System & Network
+    path: system-network
+    icon: mdi:server-network
+    cards:
+      - type: entities
+        title: System
+        show_header_toggle: false
+        entities:
+          - sensor.load_1m
+          - sensor.load_5m
+          - sensor.load_15m
+          - sensor.memory_free
+          - sensor.disk_free
+          - sensor.disk_use_percent_home
+          - sensor.last_boot
+  # - title: Lan
+  #   path: lan
+  #   icon: mdi:lan

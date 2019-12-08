@@ -1,0 +1,23 @@
+# Refresh qubino thermostat on target temperature change
+# This is needed to update targer temp in widget
+alias: Qubino update
+trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      domain: climate
+      service: set_temperature
+action:
+  # Refresh entity to update UI
+  - service: script.refresh_qubino_thermostat
+
+# CUBINO
+# climate.set_aux_heat
+# climate.set_fan_mode
+# climate.set_humidity
+# climate.set_hvac_mode
+# climate.set_preset_mode
+# climate.set_swing_mode
+# climate.set_temperature
+# climate.set_turn_off
+# climate.set_turn_on

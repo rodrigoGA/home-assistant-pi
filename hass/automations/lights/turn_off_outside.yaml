@@ -1,0 +1,8 @@
+# Turn off outside lights
+alias: Buiten licht uit om 22:30
+trigger:
+  - at: '22:30:00'
+    platform: time
+action:
+  - service: light.turn_off
+    entity_id: light.tuin

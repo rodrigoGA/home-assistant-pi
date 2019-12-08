@@ -1,0 +1,15 @@
+title: System & Network
+path: system-network
+icon: mdi:server-network
+cards:
+  - type: entities
+    title: System
+    show_header_toggle: false
+    entities:
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.load_15m
+      - sensor.memory_free
+      - sensor.disk_free
+      - sensor.disk_use_percent_home
+      - sensor.last_boot

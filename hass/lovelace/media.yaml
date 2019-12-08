@@ -1,0 +1,8 @@
+title: Media
+path: media
+icon: mdi:speaker
+cards:
+  - type: media-control
+    entity: media_player.living_room
+  - type: media-control
+    entity: media_player.media_room

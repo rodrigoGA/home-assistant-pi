@@ -1,0 +1,22 @@
+title: Lights
+path: lights
+icon: 'mdi:lightbulb-on'
+cards:
+  # Light groups
+  - type: entities
+    title: Licht
+    show_header_toggle: false
+    entities:
+      - light.woonkamer
+      - light.tuin
+  # Individual lights
+  - type: light
+    entity: light.eettafel
+  - type: light
+    entity: light.bank
+  - type: light
+    entity: light.driepoot
+  - type: light
+    entity: light.steeg
+  - type: light
+    entity: light.patio

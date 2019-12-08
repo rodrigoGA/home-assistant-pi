@@ -1,0 +1,5 @@
+# Samsung Smart TV
+platform: samsungtv
+host: !secret tv
+port: 8001
+name: The Frame

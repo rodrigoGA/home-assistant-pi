@@ -1,0 +1,11 @@
+platform: systemmonitor
+resources:
+  - type: disk_use_percent
+    arg: /home
+  - type: disk_free
+    arg: /
+  - type: memory_free
+  - type: load_1m
+  - type: load_5m
+  - type: load_15m
+  - type: last_boot

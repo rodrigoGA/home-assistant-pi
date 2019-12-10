@@ -10,6 +10,10 @@ cards:
     entities:
       - entity: input_select.occupancy
   - type: thermostat
+    name: Woonkamer
+    entity: climate.living_room_thermostat
+  - type: thermostat
+    name: Keuken
     entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
   - type: weather-forecast
     entity: weather.home

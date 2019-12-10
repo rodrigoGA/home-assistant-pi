@@ -1,0 +1,8 @@
+badnest:
+  issue_token: !secret badnest_issue_token
+  cookie: !secret badnest_cookie
+  region: eu
+
+climate:
+  - platform: badnest
+    scan_interval: 10

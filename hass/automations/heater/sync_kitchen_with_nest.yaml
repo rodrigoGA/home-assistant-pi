@@ -12,4 +12,5 @@ action:
   - service: climate.set_temperature
     entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
     data_template:
-      temperature: '{{ state_attr("climate.living_room_thermostat", "temperature") }}'
+      # temp is null when in eco/away mode so set default to 12
+      temperature: '{{ state_attr("climate.living_room_thermostat", "temperature") | float(12) }}'

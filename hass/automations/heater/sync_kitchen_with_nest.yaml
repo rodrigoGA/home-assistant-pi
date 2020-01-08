@@ -1,0 +1,15 @@
+alias: Sync kitchen thermostat on with Nest thermostat
+trigger:
+  - platform: state
+    entity_id: climate.living_room_thermostat
+action:
+  # Set kitchen heat/off
+  - service: climate.set_hvac_mode
+    entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+    data_template:
+      hvac_mode: '{{ states("climate.living_room_thermostat") }}'
+  # Set kitchen temperature
+  - service: climate.set_temperature
+    entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+    data_template:
+      temperature: '{{ state_attr("climate.living_room_thermostat", "temperature") }}'

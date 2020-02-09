@@ -3,12 +3,17 @@ services:
   homeassistant:
     container_name: home-assistant
     image: homeassistant/raspberrypi3-homeassistant:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
     volumes:
       # Data persistency
       - ./hass:/config
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
-      #- /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB0:/dev/ttyUSB0
     environment:
       - TZ=Europe/Amsterdam
     depends_on:
@@ -19,6 +24,11 @@ services:
   influxdb:
     container_name: influxdb
     image: influxdb:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
     ports:
       - 8086:8086
     environment:
@@ -32,6 +42,11 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:5.4.3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
     ports:
       - 3000:3000
     volumes:
@@ -46,6 +61,11 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
     ports:
       - "53:53/tcp"
       - "53:53/udp"

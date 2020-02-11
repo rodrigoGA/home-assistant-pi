@@ -14,7 +14,7 @@ cards:
     entity: climate.living_room_thermostat
   - type: thermostat
     name: Keuken
-    entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_heating_1
+    entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
   - type: weather-forecast
     entity: weather.home
   - type: glance

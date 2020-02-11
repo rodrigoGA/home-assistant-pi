@@ -12,8 +12,10 @@ services:
       # Data persistency
       - ./hass:/config
     devices:
+      # Zwave cable
       - /dev/ttyACM0:/dev/ttyACM0
-      - /dev/ttyUSB0:/dev/ttyUSB0
+      # P1 cable
+      # - /dev/ttyUSB0:/dev/ttyUSB0
     environment:
       - TZ=Europe/Amsterdam
     depends_on:

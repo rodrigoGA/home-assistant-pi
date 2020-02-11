@@ -1,1 +1,10 @@
 group:
+  # # Smart Meter
+  # meter_readings:
+  #   name: Meter readings
+  #   entities:
+  #     - sensor.power_consumption_low
+  #     - sensor.power_consumption_normal
+  #     - sensor.power_production_low
+  #     - sensor.power_production_normal
+  #     - sensor.gas_consumption

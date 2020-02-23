@@ -7,4 +7,5 @@ tts
 *.log
 *.txt
 *.sqlite
+__pycache__
 secrets.yaml

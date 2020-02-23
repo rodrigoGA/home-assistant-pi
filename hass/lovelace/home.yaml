@@ -34,8 +34,6 @@ cards:
     title: Automations
     show_header_toggle: false
     entities:
-      # - entity: automation.kichen_heating_on_mon_to_fri_6_00
-      # - entity: automation.kichen_heating_off_8_00_20_00
       - entity: automation.buiten_licht_aan_30_min_na_zonsondergang
       - entity: automation.buiten_licht_uit_om_22_30
   - type: entities

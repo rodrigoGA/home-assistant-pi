@@ -13,3 +13,8 @@ cards:
       - sensor.disk_free
       - sensor.disk_use_percent_home
       - sensor.last_boot
+  - type: entities
+    title: HASS
+    show_header_toggle: false
+    entities:
+      - sensor.db_file_size

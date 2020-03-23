@@ -54,3 +54,14 @@ cards:
     aspect_ratio: 50%
     url: >-
       https://embed.windy.com/embed2.html?lat=52.380&lon=4.881&zoom=10&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=52.380&detailLon=4.881&metricWind=default&metricTemp=default&radarRange=-1
+
+  # Afvalbeheer
+  - type: glance
+    title: Afvalbeheer
+    entities:
+      - entity: sensor.trash_restafval
+        name: Restafval
+      - entity: sensor.trash_pbd
+        name: Plastic (PBD)
+      - entity: sensor.trash_papier
+        name: Papier

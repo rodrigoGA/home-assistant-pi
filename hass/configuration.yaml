@@ -9,6 +9,45 @@ homeassistant:
   customize: !include customize.yaml
   packages: !include_dir_named components/packages
 
+# The recorder integration is responsible for storing details in a database,
+# which then are handled by the history integration.
+# https://www.home-assistant.io/integrations/recorder
+recorder:
+  purge_keep_days: 10
+  exclude:
+    domains:
+      - automation
+      - persistent_notification
+      - zwave
+      - media_player
+      - group
+      - sun
+      - light
+      - script
+    entities:
+      - sun.sun # Don't record sun data
+      - sensor.last_boot
+      - sensor.hacs
+      - sensor.trash_restafval
+      - sensor.trash_papier
+      - sensor.trash_pbd
+      - sensor.trash_vandaag
+      - sensor.trash_morgen
+      - climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
+      - sensor.br_symbol
+      - weather.home
+    event_types:
+      - call_service # Don't record service calls
+      - automation_triggered
+      - config_entry_discovered
+      - persistent_notifications_updated
+      - script_started
+
+# The history integration will track everything that is going on within
+# Home Assistant and allows the user to browse through it.
+# https://www.home-assistant.io/integrations/history
+history:
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
 # https://www.home-assistant.io/integrations/default_config/
 default_config:

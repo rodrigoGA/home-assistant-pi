@@ -33,6 +33,7 @@ recorder:
       - sensor.trash_pbd
       - sensor.trash_vandaag
       - sensor.trash_morgen
+      - climate.living_room_thermostat
       - climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
       - sensor.br_symbol
       - weather.home

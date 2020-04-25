@@ -12,48 +12,50 @@ cards:
   - type: thermostat
     name: Woonkamer
     entity: climate.living_room_thermostat
-  - type: thermostat
-    name: Keuken
-    entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
-  - type: weather-forecast
-    entity: weather.home
-  - type: glance
-    title: Weather
-    entities:
-      - entity: sensor.br_wind_force
-        name: Wind force
-      - entity: sensor.br_wind_direction
-        name: Wind direction
-      - entity: sensor.br_symbol
-        name: Symbol
-      - entity: sensor.br_humidity
-        name: Humidity
-      - entity: sensor.br_temperature
-        name: Temperature
-  - type: entities
-    title: Automations
-    show_header_toggle: false
-    entities:
-      - entity: automation.buiten_licht_aan_30_min_na_zonsondergang
-      - entity: automation.buiten_licht_uit_om_22_30
-  - type: entities
-    title: Kitchen
-    show_header_toggle: false
-    entities:
-      - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power
-        icon: mdi:power-plug
-      - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy
-        icon: mdi:power-plug
-  - type: history-graph
-    entities:
-      - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature
-      - entity: sensor.br_temperature
-    hours_to_show: 24
-    refresh_interval: 0
-  - type: iframe
-    aspect_ratio: 50%
-    url: >-
-      https://embed.windy.com/embed2.html?lat=52.380&lon=4.881&zoom=10&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=52.380&detailLon=4.881&metricWind=default&metricTemp=default&radarRange=-1
+
+  # Kitchen
+  - type: vertical-stack
+    title: Keuken
+    cards:
+      - type: thermostat
+        name: Keuken
+        entity: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
+      - type: entities
+        entities:
+          - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power
+            name: Huidig stroom verbruik
+            icon: mdi:power-plug
+          - entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy
+            name: Totaal stroom verbruik
+            icon: mdi:power-plug
+      - type: sensor
+        entity: sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature
+        name: Keuken temperatuur
+        graph: line
+        detail: 1
+
+  # Weather
+  - type: vertical-stack
+    title: Weer
+    cards:
+      - type: weather-forecast
+        entity: weather.openweathermap
+      - type: entities
+        entities:
+          - entity: sensor.br_wind_force
+            name: Wind force
+          - entity: sensor.br_wind_direction
+            name: Wind direction
+          - entity: sensor.br_symbol
+            name: Symbol
+          - entity: sensor.br_humidity
+            name: Humidity
+          - entity: sensor.br_temperature
+            name: Temperature
+      - type: iframe
+        aspect_ratio: 75%
+        url: >-
+          https://embed.windy.com/embed2.html?lat=52.400&lon=4.881&zoom=9&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=52.400&detailLon=4.881&metricWind=default&metricTemp=default&radarRange=-1
 
   # Afvalbeheer
   - type: glance

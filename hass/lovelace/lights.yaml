@@ -3,20 +3,35 @@ path: lights
 icon: 'mdi:lightbulb-on'
 cards:
   # Light groups
+  - type: vertical-stack
+    title: Licht Groepen
+    cards:
+      - type: light
+        entity: light.woonkamer
+      - type: light
+        entity: light.tuin
+
+  - type: vertical-stack
+    title: Verlichting Woonkamer
+    cards:
+      - type: light
+        entity: light.eettafel
+      - type: light
+        entity: light.bank
+      - type: light
+        entity: light.driepoot
+
+  - type: vertical-stack
+    title: Verlichting Buiten
+    cards:
+      - type: light
+        entity: light.steeg
+      - type: light
+        entity: light.patio
+
   - type: entities
-    title: Licht
+    title: Automations
     show_header_toggle: false
     entities:
-      - light.woonkamer
-      - light.tuin
-  # Individual lights
-  - type: light
-    entity: light.eettafel
-  - type: light
-    entity: light.bank
-  - type: light
-    entity: light.driepoot
-  - type: light
-    entity: light.steeg
-  - type: light
-    entity: light.patio
+      - entity: automation.buiten_licht_aan_30_min_na_zonsondergang
+      - entity: automation.buiten_licht_uit_om_22_30

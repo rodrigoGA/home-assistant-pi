@@ -36,7 +36,7 @@ recorder:
       - climate.living_room_thermostat
       - climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
       - sensor.br_symbol
-      - weather.home
+      - weather.openweathermap
     event_types:
       - call_service # Don't record service calls
       - automation_triggered

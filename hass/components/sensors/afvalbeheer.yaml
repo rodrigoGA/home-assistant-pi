@@ -4,7 +4,7 @@ wastecollector: GAD
 resources:
   - restafval
   - papier
-  - pbd
+  - pmd
 postcode: !secret postcode
 streetnumber: !secret streetnumber
 upcomingsensor: 1

@@ -19,7 +19,7 @@ recorder:
       - sensor.hacs
       - sensor.trash_restafval
       - sensor.trash_papier
-      - sensor.trash_pbd
+      - sensor.trash_pmd
       - sensor.trash_vandaag
       - sensor.trash_morgen
       - climate.living_room_thermostat

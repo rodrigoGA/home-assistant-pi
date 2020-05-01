@@ -63,7 +63,7 @@ cards:
     entities:
       - entity: sensor.trash_restafval
         name: Restafval
-      - entity: sensor.trash_pbd
-        name: Plastic (PBD)
+      - entity: sensor.trash_pmd
+        name: Plastic
       - entity: sensor.trash_papier
         name: Papier

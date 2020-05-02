@@ -1,5 +1,13 @@
 influxdb:
   host: 127.0.0.1
+  port: 8086
+  max_retries: 3
+  default_measurement: state
   include:
-    domains:
-      - sensor
+    entities:
+      - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power
+      - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy
+      - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature
+      - sensor.br_temperature
+      - sensor.br_humidity
+      - sensor.br_wind_force

@@ -9,6 +9,7 @@ cards:
       - sensor.load_1m
       - sensor.load_5m
       - sensor.load_15m
+      - sensor.cpu_temperature
       - sensor.memory_free
       - sensor.disk_free
       - sensor.disk_use_percent_home

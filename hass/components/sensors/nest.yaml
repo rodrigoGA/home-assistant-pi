@@ -1,0 +1,14 @@
+platform: template
+sensors:
+  nest_humidity:
+    friendly_name: "Living Room humidity"
+    entity_id: climate.living_room_thermostat
+    unit_of_measurement: '%'
+    device_class: humidity
+    value_template: "{{ state_attr('climate.living_room_thermostat', 'current_humidity') }}"
+  nest_temperature:
+    friendly_name: "Living Room temperature"
+    entity_id: climate.living_room_thermostat
+    unit_of_measurement: '°C'
+    device_class: temperature
+    value_template: "{{ state_attr('climate.living_room_thermostat', 'current_temperature') }}"

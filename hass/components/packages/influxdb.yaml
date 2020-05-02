@@ -11,3 +11,5 @@ influxdb:
       - sensor.br_temperature
       - sensor.br_humidity
       - sensor.br_wind_force
+      - sensor.nest_humidity
+      - sensor.nest_temperature

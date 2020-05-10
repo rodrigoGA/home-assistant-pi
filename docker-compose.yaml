@@ -2,7 +2,7 @@ version: '3'
 services:
   homeassistant:
     container_name: home-assistant
-    image: homeassistant/raspberrypi3-homeassistant:latest
+    image: homeassistant/raspberrypi3-homeassistant:stable
     logging:
       driver: "json-file"
       options:

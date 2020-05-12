@@ -5,13 +5,28 @@ icon: mdi:home-heart
 #   - binary_sensor.updater
 #   - person.patrick_groot
 #   - sun.sun
+
 cards:
-  - type: entities
-    entities:
-      - entity: input_select.occupancy
-  - type: thermostat
-    name: Woonkamer
-    entity: climate.living_room_thermostat
+  # Living Room
+  - type: vertical-stack
+    title: Woonkamer
+    cards:
+      - type: entities
+        entities:
+          - entity: input_select.occupancy
+      - type: thermostat
+        name: Woonkamer
+        entity: climate.living_room_thermostat
+      - type: sensor
+        entity: sensor.nest_temperature
+        name: Woonkamer temperatuur
+        graph: line
+        detail: 1
+      - type: entities
+        title: Automations
+        show_header_toggle: false
+        entities:
+          - entity: automation.sync_kitchen_thermostat_on_with_nest_thermostat
 
   # Kitchen
   - type: vertical-stack
@@ -34,12 +49,14 @@ cards:
         graph: line
         detail: 1
 
-  # Weather
+  # Environment
   - type: vertical-stack
     title: Weer
     cards:
+      # Weather
       - type: weather-forecast
         entity: weather.openweathermap
+      # Buienradar
       - type: entities
         entities:
           - entity: sensor.br_wind_force
@@ -52,18 +69,18 @@ cards:
             name: Humidity
           - entity: sensor.br_temperature
             name: Temperature
+      # Windy
       - type: iframe
         aspect_ratio: 75%
         url: >-
           https://embed.windy.com/embed2.html?lat=52.400&lon=4.881&zoom=9&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=52.400&detailLon=4.881&metricWind=default&metricTemp=default&radarRange=-1
-
-  # Afvalbeheer
-  - type: glance
-    title: Afvalbeheer
-    entities:
-      - entity: sensor.trash_restafval
-        name: Restafval
-      - entity: sensor.trash_pmd
-        name: Plastic
-      - entity: sensor.trash_papier
-        name: Papier
+      # Afvalbeheer
+      - type: glance
+        title: Afvalbeheer
+        entities:
+          - entity: sensor.trash_restafval
+            name: Restafval
+          - entity: sensor.trash_pmd
+            name: Plastic
+          - entity: sensor.trash_papier
+            name: Papier

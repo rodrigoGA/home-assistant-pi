@@ -2,7 +2,7 @@
 # which then are handled by the history integration.
 # https://www.home-assistant.io/integrations/recorder
 recorder:
-  purge_keep_days: 10
+  purge_keep_days: 5
   exclude:
     domains:
       - automation

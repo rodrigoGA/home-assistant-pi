@@ -1,0 +1,4 @@
+synology_dsm:
+  - host: !secret nas
+    username: !secret nas_username
+    password: !secret nas_password

@@ -1,0 +1,8 @@
+# Samsung Smart TV
+samsungtv:
+  - host: !secret tv
+    name: 'The Frame'
+    turn_on_action:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret tv_mac

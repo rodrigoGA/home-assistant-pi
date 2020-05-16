@@ -2,6 +2,7 @@ title: System & Network
 path: system-network
 icon: mdi:server-network
 cards:
+  # SYSTEM
   - type: entities
     title: System
     show_header_toggle: false
@@ -14,11 +15,25 @@ cards:
       - sensor.disk_free
       - sensor.disk_use_percent_home
       - sensor.last_boot
+
+  # HASS
   - type: entities
     title: HASS
     show_header_toggle: false
     entities:
       - sensor.db_file_size
+
+  # Router
+  - type: entities
+    title: Router
+    show_header_toggle: false
+    entities:
+      - sensor.asuswrt_download
+      - sensor.asuswrt_download_speed
+      - sensor.asuswrt_upload
+      - sensor.asuswrt_upload_speed
+
+  # NAS
   - type: entities
     title: NAS
     show_header_toggle: false

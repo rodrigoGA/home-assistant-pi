@@ -62,7 +62,7 @@ services:
 
   pihole:
     container_name: pihole
-    image: pihole/pihole:latest
+    image: pihole/pihole:master
     logging:
       driver: "json-file"
       options:

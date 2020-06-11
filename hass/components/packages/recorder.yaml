@@ -26,6 +26,28 @@ recorder:
       - climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode
       - sensor.br_symbol
       - weather.openweathermap
+      # smart meter
+      - sensor.energy_consumption_total
+      - sensor.short_power_failure_count
+      - sensor.long_power_failure_count
+      - sensor.power_consumption_phase_l1
+      - sensor.power_consumption_phase_l2
+      - sensor.power_consumption_phase_l3
+      - sensor.power_production_phase_l1
+      - sensor.power_production_phase_l2
+      - sensor.power_production_phase_l3
+      - sensor.current_phase_l1
+      - sensor.current_phase_l2
+      - sensor.current_phase_l3
+      - sensor.voltage_phase_l1
+      - sensor.voltage_phase_l2
+      - sensor.voltage_phase_l3
+      - sensor.voltage_sags_phase_l1
+      - sensor.voltage_sags_phase_l2
+      - sensor.voltage_sags_phase_l3
+      - sensor.voltage_swells_phase_l1
+      - sensor.voltage_swells_phase_l2
+      - sensor.voltage_swells_phase_l3
     event_types:
       - call_service # Don't record service calls
       - automation_triggered

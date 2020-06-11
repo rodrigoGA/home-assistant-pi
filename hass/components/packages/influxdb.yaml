@@ -5,11 +5,22 @@ influxdb:
   default_measurement: state
   include:
     entities:
+      # Qubino kitchen
       - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_power
       - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_energy
       - sensor.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_temperature
+      # Buienradar
       - sensor.br_temperature
       - sensor.br_humidity
       - sensor.br_wind_force
+      # Nest
       - sensor.nest_humidity
       - sensor.nest_temperature
+      # Smart meter
+      - sensor.gas_consumption
+      - sensor.power_consumption
+      - sensor.power_production
+      - sensor.energy_consumption_tarif_1
+      - sensor.energy_consumption_tarif_2
+      - sensor.energy_production_tarif_1
+      - sensor.energy_production_tarif_2

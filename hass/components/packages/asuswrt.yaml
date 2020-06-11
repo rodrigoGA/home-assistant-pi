@@ -9,3 +9,10 @@ asuswrt:
     - download
     - upload_speed
     - download_speed
+
+device_tracker:
+  - platform: asuswrt
+    interval_seconds: 12
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: false

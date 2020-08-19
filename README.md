@@ -97,4 +97,3 @@ Set or reset web interface password
 ```
 docker exec -it pihole_container_name pihole -a -p
 ```
-

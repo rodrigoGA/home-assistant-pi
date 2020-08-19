@@ -5,3 +5,6 @@ views:
   - !include lovelace/media.yaml
   - !include lovelace/system_network.yaml
   # - !include lovelace/lan.yaml
+resources:
+  - url: /local/community/canvas-gauge-card/canvas-gauge-card.js
+    type: module

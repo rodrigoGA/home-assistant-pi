@@ -91,21 +91,21 @@ services:
     restart: always
 
 
-    portainer:
-        container_name: portainer
-        image: portainer/portainer:1.24.0
-        restart: always
-        networks:
-            - traefik_proxy
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - portainer-data:/data
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.portainer.rule=Host(`portainer.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.portainer.entrypoints=web"
-            - "traefik.http.routers.portainer.service=portainer"
-            - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-        logging:
-            options:
-                max-size: 10m
+  portainer:
+      container_name: portainer
+      image: portainer/portainer:1.24.0
+      restart: always
+      networks:
+          - traefik_proxy
+      volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer-data:/data
+      labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.portainer.rule=Host(`portainer.${INTERNAL_DOMAIN}`)"
+          - "traefik.http.routers.portainer.entrypoints=web"
+          - "traefik.http.routers.portainer.service=portainer"
+          - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      logging:
+          options:
+              max-size: 10m

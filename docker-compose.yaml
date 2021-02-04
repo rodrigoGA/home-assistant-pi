@@ -2,7 +2,7 @@ version: '3'
 services:
   homeassistant:
     container_name: home-assistant
-    image: homeassistant/raspberrypi3-homeassistant:stable
+    image: homeassistant/raspberrypi4-homeassistant:stable
     logging:
       driver: "json-file"
       options:
@@ -11,13 +11,13 @@ services:
     volumes:
       # Data persistency
       - ./hass:/config
-    devices:
-      # Zwave cable
-      - /dev/ttyACM0:/dev/ttyACM0
-      # P1 cable
-      - /dev/ttyUSB0:/dev/ttyUSB0
+#    devices:
+#      # Zwave cable
+#      - /dev/ttyACM0:/dev/ttyACM0
+#      # P1 cable
+#      - /dev/ttyUSB0:/dev/ttyUSB0
     environment:
-      - TZ=Europe/Amsterdam
+      - TZ=America/Montevideo
     depends_on:
       - influxdb
     restart: always
@@ -75,7 +75,7 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
     environment:
-      TZ: 'Europe/Amsterdam'
+      TZ: 'America/Montevideo'
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
@@ -89,3 +89,23 @@ services:
     cap_add:
       - NET_ADMIN
     restart: always
+
+
+    portainer:
+        container_name: portainer
+        image: portainer/portainer:1.24.0
+        restart: always
+        networks:
+            - traefik_proxy
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer-data:/data
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.portainer.rule=Host(`portainer.${INTERNAL_DOMAIN}`)"
+            - "traefik.http.routers.portainer.entrypoints=web"
+            - "traefik.http.routers.portainer.service=portainer"
+            - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        logging:
+            options:
+                max-size: 10m

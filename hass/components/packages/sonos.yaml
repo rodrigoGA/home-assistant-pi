@@ -1,7 +1,0 @@
-# Sonos
-sonos:
-  media_player:
-    hosts:
-      - !secret sonos1
-      - !secret sonos2
-      - !secret sonos3

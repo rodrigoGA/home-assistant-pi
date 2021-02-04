@@ -1,9 +1,0 @@
-# Refresh entity Qubino thermostat
-# UI of thermostat does not update because Cubino does not advertise target temperature
-refresh_qubino_thermostat:
-  sequence:
-    - delay:
-        seconds: 1
-    - service: zwave.refresh_entity
-      data:
-        entity_id: climate.qubino_goap_zmnhidx_flush_on_off_thermostat_h1s2p1_mode

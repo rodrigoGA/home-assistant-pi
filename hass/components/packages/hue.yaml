@@ -1,4 +1,0 @@
-# Philips Hue
-hue:
-  bridges:
-    - host: !secret hue

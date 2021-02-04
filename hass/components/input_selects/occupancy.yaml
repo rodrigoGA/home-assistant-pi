@@ -1,7 +1,0 @@
-occupancy:
-  name: Occupancy
-  icon: mdi:home-circle
-  options:
-    - Home
-    - Away
-  initial: Home

@@ -1,4 +1,0 @@
-cast:
-  # Google Cast
-  media_player:
-    - host: !secret chromecast

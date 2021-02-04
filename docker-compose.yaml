@@ -3,6 +3,10 @@ services:
   homeassistant:
     container_name: home-assistant
     image: homeassistant/raspberrypi4-homeassistant:stable
+    expose:
+     - 8123
+    ports:
+     - 8123:8123
     logging:
       driver: "json-file"
       options:
@@ -21,7 +25,8 @@ services:
     depends_on:
       - influxdb
     restart: always
-    network_mode: host
+    networks:
+     - integracion
 
   influxdb:
     container_name: influxdb
@@ -39,11 +44,16 @@ services:
       # Data persistency
       - ./influxdb:/var/lib/influxdb
     restart: always
-    network_mode: host
+    networks:
+     - integracion
 
   grafana:
     container_name: grafana
     image: grafana/grafana:5.4.3
+    expose:
+     - 3000
+    ports:
+     - 3000:3000
     logging:
       driver: "json-file"
       options:
@@ -58,11 +68,16 @@ services:
     depends_on:
       - influxdb
     restart: always
-    network_mode: host
+    networks:
+     - integracion
 
   pihole:
     container_name: pihole
     image: pihole/pihole:master
+    expose:
+     - 80
+    ports:
+     - 80:80
     logging:
       driver: "json-file"
       options:
@@ -89,15 +104,30 @@ services:
     cap_add:
       - NET_ADMIN
     restart: always
+    networks:
+     - integracion
 
 
   portainer:
-      container_name: portainer
-      image: portainer/portainer:1.24.0
-      restart: always
-      volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - ./portainer/data:/data
-      logging:
-          options:
-              max-size: 10m
+    container_name: portainer
+    image: portainer/portainer:1.24.0
+    restart: always
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./portainer/data:/data
+    logging:
+        options:
+            max-size: 10m
+    networks:
+     - integracion
+
+
+networks:
+  integracion:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 167.229.0.0/16
+           gateway: 167.229.0.1
+

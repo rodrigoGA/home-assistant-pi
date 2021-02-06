@@ -19,7 +19,7 @@ services:
       - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
     restart: always
     networks:
-      - traefik_proxy
+      - integracion
     extra_hosts:
       # this host, though not important now will allow traefik
       # to address home assistant later.

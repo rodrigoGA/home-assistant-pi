@@ -132,10 +132,10 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:master
-   expose:
-    - 80
-   ports:
-    - 80:80
+    expose:
+      - 80
+    ports:
+      - 80:80
     logging:
       driver: "json-file"
       options:

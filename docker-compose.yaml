@@ -9,13 +9,13 @@ services:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.dns.address=:53/tcp"
-      - "--entrypoints.dns-udp.address=:53/udp"
+      # - "--entrypoints.dns.address=:53/tcp"
+      # - "--entrypoints.dns-udp.address=:53/udp"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=traefik_proxy"
       - "--certificatesresolvers.le=true"
-      - "--certificatesresolvers.le.acme.dnschallenge=true"
+      # - "--certificatesresolvers.le.acme.dnschallenge=true"
       - "--certificatesresolvers.le.acme.email=ro.goab@gmail.com"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
       - "--certificatesresolvers.le.acme.httpchallenge=true"
@@ -144,12 +144,10 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
-    # ports:
-    #   - "53:53/tcp"
-    #   - "53:53/udp"
-    #   - "67:67/udp"
-    #   - "80:80/tcp"
-    #   - "443:443/tcp"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
     environment:
       TZ: 'America/Montevideo'
       # WEBPASSWORD: 'set a secure password here or it will be random'
@@ -178,11 +176,11 @@ services:
 
 
       # dns service
-      - "traefik.udp.routers.dnsudp.entrypoints=dnsudp"
-      - "traefik.udp.services.dnsudp.loadbalancer.server.port=53"
-      - "traefik.tcp.routers.dnstcp.entrypoints=dnstcp"
-      - "traefik.tcp.routers.dnstcp.rule=HostSNI(`*`)"
-      - "traefik.tcp.services.dnstcp.loadbalancer.server.port=53"
+      # - "traefik.udp.routers.dnsudp.entrypoints=dnsudp"
+      # - "traefik.udp.services.dnsudp.loadbalancer.server.port=53"
+      # - "traefik.tcp.routers.dnstcp.entrypoints=dnstcp"
+      # - "traefik.tcp.routers.dnstcp.rule=HostSNI(`*`)"
+      # - "traefik.tcp.services.dnstcp.loadbalancer.server.port=53"
 
 
 

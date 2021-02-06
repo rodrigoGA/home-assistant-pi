@@ -132,10 +132,10 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:master
-    expose:
-      - 80
-    ports:
-      - 80:80
+    # expose:
+    #   - 80
+    # ports:
+    #   - 80:80
     logging:
       driver: "json-file"
       options:
@@ -164,33 +164,33 @@ services:
     restart: always
     networks:
       - integracion
-    # labels:
-    #   - "traefik.enable=true"
+    labels:
+      - "traefik.enable=true"
 
-    #   # web interface
-    #   - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
-    #   - "traefik.http.routers.pihole.entrypoints=websecure"
-    #   - "traefik.http.routers.pihole.tls.certresolver=mytlschallenge"
-    #   - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      # web interface
+      - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
-    #   # DNS-over-TLS
-    #   - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.mired`)"
-    #   - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
-    #   - "traefik.tcp.routers.dnsovertls.tls.certresolver=mytlschallenge"
-    #   - "traefik.tcp.routers.dnsovertls.service=pihole"
+      # DNS-over-TLS
+      - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.mired`)"
+      - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
+      - "traefik.tcp.routers.dnsovertls.tls.certresolver=mytlschallenge"
+      - "traefik.tcp.routers.dnsovertls.service=pihole"
 
-    #   # Normal DNS coming in on 53 TCP, no TLS
-    #   - "traefik.tcp.routers.dns.rule=HostSNI(`pihole.mired`)"
-    #   - "traefik.tcp.routers.dns.entrypoints=dns"
-    #   - "traefik.tcp.routers.dns.service=pihole"
+      # Normal DNS coming in on 53 TCP, no TLS
+      - "traefik.tcp.routers.dns.rule=HostSNI(`pihole.mired`)"
+      - "traefik.tcp.routers.dns.entrypoints=dns"
+      - "traefik.tcp.routers.dns.service=pihole"
 
-    #   # recieves traffic from both the TLS and non-TLS traefik routers
-    #   - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
+      # recieves traffic from both the TLS and non-TLS traefik routers
+      - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
 
-    #   # Normal DNS coming in on 53 UDP
-    #   - "traefik.udp.routers.udpdns.entrypoints=udpdns"
-    #   - "traefik.udp.routers.udpdns.service=pihole"
-    #   - "traefik.udp.services.pihole.loadbalancer.server.port=53"
+      # Normal DNS coming in on 53 UDP
+      - "traefik.udp.routers.udpdns.entrypoints=udpdns"
+      - "traefik.udp.routers.udpdns.service=pihole"
+      - "traefik.udp.services.pihole.loadbalancer.server.port=53"
 
 
 

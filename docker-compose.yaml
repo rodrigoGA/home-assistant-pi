@@ -1,12 +1,57 @@
 version: '3'
 services:
+
+  reverse-proxy:
+    container_name: reverse-proxy
+    # The official v2.2 Traefik docker image traefik:alpine
+    image: traefik:v2.2
+    command:
+      - "--api.dashboard=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik_proxy"
+      - "--certificatesresolvers.le=true"
+      - "--certificatesresolvers.le.acme.email=ro.goab@gmail.com"
+      - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+    restart: always
+    networks:
+      - traefik_proxy
+    extra_hosts:
+      # this host, though not important now will allow traefik
+      # to address home assistant later.
+      - host.docker.internal:172.17.0.1 
+    ports:
+      - "443:443"
+      - "853:853"
+      - "53:53"
+      - "53:53/udp"
+      - "80:80"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.mired`)"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+      - "traefik.http.routers.dashboard.service=api@internal"
+    logging:
+      options:
+        max-size: 10m
+
+
+
+
   homeassistant:
     container_name: home-assistant
     image: homeassistant/raspberrypi4-homeassistant:stable
-    expose:
-     - 8123
-    ports:
-     - 8123:8123
+#    expose:
+#     - 8123
+#    ports:
+#     - 8123:8123
     logging:
       driver: "json-file"
       options:
@@ -25,8 +70,10 @@ services:
     depends_on:
       - influxdb
     restart: always
+    # labels:
+    #   - "traefik.http.routers.whoami.rule=Host(`home.mired`)"
     networks:
-     - integracion
+      - integracion
 
   influxdb:
     container_name: influxdb
@@ -36,8 +83,8 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
-    ports:
-      - 8086:8086
+#    ports:
+#      - 8086:8086
     environment:
       INFLUXDB_DB: home_assistant
     volumes:
@@ -50,10 +97,10 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:5.4.3
-    expose:
-     - 3000
-    ports:
-     - 3000:3000
+#    expose:
+#     - 3000
+#    ports:
+#     - 3000:3000
     logging:
       driver: "json-file"
       options:
@@ -68,16 +115,24 @@ services:
     depends_on:
       - influxdb
     restart: always
+#    labels:
+#      - "traefik.frontend.rule=grafana.lan"
     networks:
      - integracion
+
+
+
+
+
+
 
   pihole:
     container_name: pihole
     image: pihole/pihole:master
-    expose:
-     - 80
-    ports:
-     - 80:80
+#    expose:
+#     - 80
+#    ports:
+#     - 80:80
     logging:
       driver: "json-file"
       options:
@@ -105,25 +160,63 @@ services:
       - NET_ADMIN
     restart: always
     networks:
-     - integracion
+      - integracion
+    labels:
+      - "traefik.enable=true"
+
+      # web interface
+      - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+
+      # DNS-over-TLS
+      - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.mired`)"
+      - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
+      - "traefik.tcp.routers.dnsovertls.tls.certresolver=mytlschallenge"
+      - "traefik.tcp.routers.dnsovertls.service=pihole"
+
+      # Normal DNS coming in on 53 TCP, no TLS
+      - "traefik.tcp.routers.dns.rule=HostSNI(`pihole.mired`)"
+      - "traefik.tcp.routers.dns.entrypoints=dns"
+      - "traefik.tcp.routers.dns.service=pihole"
+
+      # recieves traffic from both the TLS and non-TLS traefik routers
+      - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
+
+      # Normal DNS coming in on 53 UDP
+      - "traefik.udp.routers.udpdns.entrypoints=udpdns"
+      - "traefik.udp.routers.udpdns.service=pihole"
+      - "traefik.udp.services.pihole.loadbalancer.server.port=53"
+
+
+
+
+
 
 
   portainer:
     container_name: portainer
     image: portainer/portainer:1.24.0
     restart: always
-    expose:
-     - 9000
-     - 8000
-    ports:
-     - 9000:9000
-     - 8000:8000
+#    expose:
+#     - 9000
+#     - 8000
+#    ports:
+#     - 9000:9000
+#     - 8000:8000
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - ./portainer/data:/data
     logging:
         options:
             max-size: 10m
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.mired`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     networks:
      - integracion
 

@@ -9,10 +9,13 @@ services:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.dns.address=:53/tcp"
+      - "--entrypoints.dns-udp.address=:53/udp"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=traefik_proxy"
       - "--certificatesresolvers.le=true"
+      - "--certificatesresolvers.le.acme.dnschallenge=true"
       - "--certificatesresolvers.le.acme.email=ro.goab@gmail.com"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
       - "--certificatesresolvers.le.acme.httpchallenge=true"
@@ -169,15 +172,15 @@ services:
 
       # web interface
       - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
-      - "traefik.http.routers.pihole.entrypoints=websecure"
-      - "traefik.http.routers.pihole.tls.certresolver=le"
+      - "traefik.http.routers.pihole.entrypoints=web"
+      - "traefik.http.routers.pihole.service=pihole"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
       # DNS-over-TLS
-      - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.mired`)"
-      - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
-      - "traefik.tcp.routers.dnsovertls.tls.certresolver=le"
-      - "traefik.tcp.routers.dnsovertls.service=pihole"
+      # - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.mired`)"
+      # - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
+      # - "traefik.tcp.routers.dnsovertls.tls.certresolver=le"
+      # - "traefik.tcp.routers.dnsovertls.service=pihole"
 
       # Normal DNS coming in on 53 TCP, no TLS
       - "traefik.tcp.routers.dns.rule=HostSNI(`pihole.mired`)"

@@ -94,6 +94,9 @@ services:
     networks:
      - integracion
 
+
+
+
   grafana:
     container_name: grafana
     image: grafana/grafana:5.4.3

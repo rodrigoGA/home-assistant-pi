@@ -106,8 +106,8 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
-    ports:
-      - 3000:3000
+    # ports:
+      # - 3000:3000
     volumes:
       # Data persistency
       # sudo chown 472:472 ./grafana
@@ -138,12 +138,12 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-      - "80:80/tcp"
-      - "443:443/tcp"
+    # ports:
+    #   - "53:53/tcp"
+    #   - "53:53/udp"
+    #   - "67:67/udp"
+    #   - "80:80/tcp"
+    #   - "443:443/tcp"
     environment:
       TZ: 'America/Montevideo'
       # WEBPASSWORD: 'set a secure password here or it will be random'
@@ -202,9 +202,9 @@ services:
 #    expose:
 #     - 9000
 #     - 8000
-#    ports:
-#     - 9000:9000
-#     - 8000:8000
+  #  ports:
+  #   - 9000:9000
+  #   - 8000:8000
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - ./portainer/data:/data

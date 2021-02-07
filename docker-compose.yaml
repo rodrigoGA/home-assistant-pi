@@ -39,8 +39,8 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.mired`)"
       - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
-    # networks:
-    #   - integracion
+    networks:
+      - integracion
     network_mode: host
     logging:
       options:
@@ -252,12 +252,12 @@ services:
     network_mode: host
 
 
-# networks:
-#   integracion:
-#       driver: bridge
-#       ipam:
-#         driver: default
-#         config:
-#          - subnet: 167.229.0.0/16
-#            gateway: 167.229.0.1
+networks:
+  integracion:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 167.229.0.0/16
+           gateway: 167.229.0.1
 

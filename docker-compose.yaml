@@ -25,12 +25,12 @@ services:
       # this host, though not important now will allow traefik
       # to address home assistant later.
       - host.docker.internal:172.17.0.1 
-    ports:
-      - "443:443"
-      # - "853:853"
-      # - "53:53"
-      # - "53:53/udp"
-      - "80:80"
+    # ports:
+    #   - "443:443"
+    #   # - "853:853"
+    #   # - "53:53"
+    #   # - "53:53/udp"
+    #   - "80:80"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -155,13 +155,14 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
+    # ports:
+    #   - "53:53/tcp"
+    #   - "53:53/udp"
+    #   - "67:67/udp"
     #   - 80:80
     environment:
-      TZ: 'America/Montevideo'
+      - TZ: 'America/Montevideo'
+      - WEB_PORT: 8081
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
@@ -185,7 +186,7 @@ services:
       - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
       - "traefik.http.routers.pihole.entrypoints=web"
       - "traefik.http.routers.pihole.service=pihole"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.http.services.pihole.loadbalancer.server.port=8081"
 
 
       # dns service

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
 
   reverse-proxy:
@@ -21,8 +21,6 @@ services:
       - "--certificatesresolvers.le.acme.httpchallenge=true"
       - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
     restart: always
-    networks:
-      - integracion
     extra_hosts:
       # this host, though not important now will allow traefik
       # to address home assistant later.
@@ -41,6 +39,9 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.mired`)"
       - "traefik.http.routers.dashboard.entrypoints=web"
       - "traefik.http.routers.dashboard.service=api@internal"
+    # networks:
+    #   - integracion
+    network_mode: host
     logging:
       options:
         max-size: 10m
@@ -73,14 +74,19 @@ services:
     depends_on:
       - influxdb
     restart: always
-    networks:
-      - integracion
+    # networks:
+    #   - integracion
+    network_mode: host
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.mired`)"
       - "traefik.http.routers.homeassistant.entrypoints=web"
       - "traefik.http.routers.homeassistant.service=homeassistant"
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+
+
+
+
 
   influxdb:
     container_name: influxdb
@@ -98,8 +104,9 @@ services:
       # Data persistency
       - ./influxdb:/var/lib/influxdb
     restart: always
-    networks:
-     - integracion
+    network_mode: host
+    # networks:
+    #  - integracion
 
 
 
@@ -127,9 +134,9 @@ services:
     restart: always
 #    labels:
 #      - "traefik.frontend.rule=grafana.lan"
-    networks:
-     - integracion
-
+    # networks:
+    #  - integracion
+    network_mode: host
 
 
 
@@ -168,8 +175,9 @@ services:
     cap_add:
       - NET_ADMIN
     restart: always
-    networks:
-      - integracion
+    # networks:
+    #   - integracion
+    network_mode: host
     labels:
       - "traefik.enable=true"
 
@@ -238,16 +246,17 @@ services:
       - "traefik.http.routers.portainer.entrypoints=web"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-    networks:
-     - integracion
+    # networks:
+    #  - integracion
+    network_mode: host
 
 
-networks:
-  integracion:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 167.229.0.0/16
-           gateway: 167.229.0.1
+# networks:
+#   integracion:
+#       driver: bridge
+#       ipam:
+#         driver: default
+#         config:
+#          - subnet: 167.229.0.0/16
+#            gateway: 167.229.0.1
 

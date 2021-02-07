@@ -1,0 +1,7 @@
+[http]
+  [http.middlewares]
+    [http.middlewares.redirecthttps.redirectScheme]
+      scheme="https"
+      permanent=true
+    [http.middlewares.riptp.headers.customResponseHeaders]
+      X-Clacks-Overhead="GNU Terry Pratchett"

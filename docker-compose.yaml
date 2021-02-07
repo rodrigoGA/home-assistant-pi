@@ -1,50 +1,57 @@
 version: '3.4'
 services:
 
-  reverse-proxy:
-    container_name: reverse-proxy
-    # The official v2.2 Traefik docker image traefik:alpine
-    image: traefik:v2.2
-    command:
-      - "--api.dashboard=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.dns.address=:53/tcp"
-      # - "--entrypoints.dns-udp.address=:53/udp"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=traefik_proxy"
-      - "--certificatesresolvers.le=true"
-      # - "--certificatesresolvers.le.acme.dnschallenge=true"
-      - "--certificatesresolvers.le.acme.email=ro.goab@gmail.com"
-      - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
-      - "--certificatesresolvers.le.acme.httpchallenge=true"
-      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-    restart: always
-    extra_hosts:
-      # this host, though not important now will allow traefik
-      # to address home assistant later.
-      - host.docker.internal:172.17.0.1 
-    # ports:
-    #   - "443:443"
-    #   # - "853:853"
-    #   # - "53:53"
-    #   # - "53:53/udp"
-    #   - "80:80"
+  # reverse-proxy:
+  #   container_name: reverse-proxy
+  #   # The official v2.2 Traefik docker image traefik:alpine
+  #   image: traefik:v2.2
+  #   command:
+  #     - "--api.dashboard=true"
+  #     - "--entrypoints.web.address=:80"
+  #     - "--entrypoints.websecure.address=:443"
+  #     # - "--entrypoints.dns.address=:53/tcp"
+  #     # - "--entrypoints.dns-udp.address=:53/udp"
+  #     - "--providers.docker=true"
+  #     - "--providers.docker.exposedbydefault=false"
+  #     - "--providers.docker.network=traefik_proxy"
+  #     - "--certificatesresolvers.le=true"
+  #     # - "--certificatesresolvers.le.acme.dnschallenge=true"
+  #     - "--certificatesresolvers.le.acme.email=ro.goab@gmail.com"
+  #     - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
+  #     - "--certificatesresolvers.le.acme.httpchallenge=true"
+  #     - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+  #   restart: always
+  #   extra_hosts:
+  #     # this host, though not important now will allow traefik
+  #     # to address home assistant later.
+  #     - host.docker.internal:172.17.0.1 
+  #   # ports:
+  #   #   - "443:443"
+  #   #   # - "853:853"
+  #   #   # - "53:53"
+  #   #   # - "53:53/udp"
+  #   #   - "80:80"
+  #   volumes:
+  #     # So that Traefik can listen to the Docker events
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.dashboard.rule=Host(`traefik.mired`)"
+  #     - "traefik.http.routers.dashboard.entrypoints=web"
+  #     - "traefik.http.routers.dashboard.service=api@internal"
+  #   networks:
+  #     - integracion
+  #   network_mode: host
+  #   logging:
+  #     options:
+  #       max-size: 10m
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
     volumes:
-      # So that Traefik can listen to the Docker events
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.mired`)"
-      - "traefik.http.routers.dashboard.entrypoints=web"
-      - "traefik.http.routers.dashboard.service=api@internal"
-    networks:
-      - integracion
-    network_mode: host
-    logging:
-      options:
-        max-size: 10m
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
 
 
@@ -163,6 +170,8 @@ services:
     environment:
       - TZ=America/Montevideo
       - WEB_PORT=8081
+      - VIRTUAL_HOST=pihole.mired
+      - VIRTUAL_PORT=8081
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
@@ -252,12 +261,12 @@ services:
     network_mode: host
 
 
-networks:
-  integracion:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 167.229.0.0/16
-           gateway: 167.229.0.1
+# networks:
+#   integracion:
+#       driver: bridge
+#       ipam:
+#         driver: default
+#         config:
+#          - subnet: 167.229.0.0/16
+#            gateway: 167.229.0.1
 

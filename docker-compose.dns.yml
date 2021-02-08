@@ -1,16 +1,6 @@
 version: '2.4'
 
 services:
-    # cloudflared:
-    #     container_name: cloudflared
-    #     image: visibilityspots/cloudflared
-    #     restart: unless-stopped
-    #     networks:
-    #         net:
-    #             ipv4_address: 172.20.0.2
-    #     logging:
-    #         options:
-    #             max-size: 10m
 
     pihole:
         container_name: pihole
@@ -20,7 +10,6 @@ services:
             TZ: 'America/Montevideo'
             VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
             VIRTUAL_PORT: 8081
-            DNSMASQ_LISTENING: local
         volumes:
             - ./data/pihole-config:/etc/pihole
             - ./data/dnsmasq-config:/etc/dnsmasq.d
@@ -56,18 +45,18 @@ services:
             # - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
 
 
-networks:
-    # net:
-    #     name: dns
-    #     driver: bridge
-    #     ipam:
-    #         config:
-    #             - subnet: 172.20.0.0/24
-    # lan:
-    #     external: true
-    traefik_proxy:
-        external: true
-    pub_net:
-        external: true
+# networks:
+#     # net:
+#     #     name: dns
+#     #     driver: bridge
+#     #     ipam:
+#     #         config:
+#     #             - subnet: 172.20.0.0/24
+#     # lan:
+#     #     external: true
+#     traefik_proxy:
+#         external: true
+#     pub_net:
+#         external: true
 
 

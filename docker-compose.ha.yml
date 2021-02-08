@@ -93,25 +93,44 @@ services:
             - traefik.tcp.routers.mosquitto.service=mosquitto
             - traefik.tcp.services.mosquitto.loadbalancer.server.port=1883
 
-    mysql:
-        container_name: database
-        image: mariadb:latest
-        volumes: 
-            - ./data/mariadb-data:/var/lib/mysql
-        restart: always
-        networks:
-            - net
-            - traefik_proxy
-        logging:
-            options:
-                max-size: 10m
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=traefik_proxy
-            - traefik.tcp.routers.mariadb.entrypoints=mysql
-            - traefik.tcp.routers.mariadb.rule=HostSNI(`*`)
-            - traefik.tcp.routers.mariadb.service=mariadb
-            - traefik.tcp.services.mariadb.loadbalancer.server.port=3306
+#   influxdb:
+#     container_name: influxdb
+#     image: influxdb:latest
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "5m"
+#         max-file: "10"
+#     environment:
+#       INFLUXDB_DB: home_assistant
+#     volumes:
+#       # Data persistency
+#       - ./influxdb:/var/lib/influxdb
+#     restart: always
+#     networks:
+#         - net
+#         - traefik_proxy
+
+
+    # mysql:
+    #     container_name: database
+    #     image: mariadb:latest
+    #     volumes: 
+    #         - ./data/mariadb-data:/var/lib/mysql
+    #     restart: always
+    #     networks:
+    #         - net
+    #         - traefik_proxy
+    #     logging:
+    #         options:
+    #             max-size: 10m
+    #     labels:
+    #         - traefik.enable=true
+    #         - traefik.docker.network=traefik_proxy
+    #         - traefik.tcp.routers.mariadb.entrypoints=mysql
+    #         - traefik.tcp.routers.mariadb.rule=HostSNI(`*`)
+    #         - traefik.tcp.routers.mariadb.service=mariadb
+    #         - traefik.tcp.services.mariadb.loadbalancer.server.port=3306
 
 
 networks:

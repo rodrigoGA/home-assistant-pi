@@ -10,6 +10,8 @@ services:
       - "67:67/udp"
     #   - "80:80/tcp"
     #   - "443:443/tcp"
+    networks:
+      - traefik_proxy
     environment:
       TZ: 'America/Chicago'
       # WEBPASSWORD: 'set a secure password here or it will be random'

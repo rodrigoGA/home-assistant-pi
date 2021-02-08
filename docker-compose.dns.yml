@@ -14,6 +14,7 @@ services:
       - traefik_proxy
     environment:
       TZ: 'America/Montevideo'
+      VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:

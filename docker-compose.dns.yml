@@ -21,7 +21,7 @@ services:
             TZ: 'Europe/London'
             WEBPASSWORD: ''
             VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
-            ServerIP: 192.168.11.16
+            ServerIP: 192.168.1.16
             DNS1: 172.20.0.2#5054
             DNS2: 1.0.0.1
             DNSMASQ_LISTENING: local

@@ -32,13 +32,13 @@ services:
         expose:
             - 53
             - 67
-        # ports:
-        #     - "53:53/tcp"
-        #     - "53:53/udp"
-        #     - "67:67/udp"
-        #     # - 80:80
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            # - 80:80
         networks:
-            - pub_net
+            # - pub_net
             - traefik_proxy
         logging:
             driver: "json-file"

@@ -14,7 +14,7 @@ services:
 
     pihole:
         container_name: pihole
-        image: pihole/pihole
+        image: pihole/pihole:latest
         restart: always
         environment:
             TZ: 'America/Montevideo'
@@ -30,27 +30,25 @@ services:
         #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
         cap_add:
             - NET_ADMIN        
-        # expose:
-        #     - 53
-        #     - 67
-        # ports:
-        #     - "53:53/tcp"
-        #     - "53:53/udp"
-        #     - "67:67/udp"
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
         networks:
-            - pub_net
+            # - pub_net
             - traefik_proxy
         logging:
             driver: "json-file"
             options:
                 max-size: "5m"
                 max-file: "10"
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.pihole.entrypoints=web"
-            - "traefik.http.routers.pihole.service=pihole"
-            - "traefik.http.services.pihole.loadbalancer.server.port=8081"
+        # labels:
+        #     - "traefik.enable=true"
+        #     - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+        #     - "traefik.http.routers.pihole.entrypoints=web"
+        #     - "traefik.http.routers.pihole.service=pihole"
+        #     - "traefik.http.services.pihole.loadbalancer.server.port=8081"
+
             # - "traefik.enable=true"
             # - "traefik.docker.network=traefik_proxy"
             # - "traefik.http.routers.pihole-insecure.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"

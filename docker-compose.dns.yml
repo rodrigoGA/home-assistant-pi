@@ -20,6 +20,7 @@ services:
             TZ: 'America/Montevideo'
             VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
             VIRTUAL_PORT: 8081
+            DNSMASQ_LISTENING: local
         volumes:
             - ./data/pihole-config:/etc/pihole
             - ./data/dnsmasq-config:/etc/dnsmasq.d
@@ -29,15 +30,15 @@ services:
         #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
         cap_add:
             - NET_ADMIN        
-        expose:
-            - 53
-            - 67
-        ports:
-            - "53:53/tcp"
-            - "53:53/udp"
-            - "67:67/udp"
+        # expose:
+        #     - 53
+        #     - 67
+        # ports:
+        #     - "53:53/tcp"
+        #     - "53:53/udp"
+        #     - "67:67/udp"
         networks:
-            # - pub_net
+            - pub_net
             - traefik_proxy
         logging:
             driver: "json-file"

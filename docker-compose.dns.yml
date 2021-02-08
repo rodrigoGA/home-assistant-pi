@@ -64,5 +64,7 @@ networks:
     #     external: true
     traefik_proxy:
         external: true
+    pub_net:
+        external: true
 
 

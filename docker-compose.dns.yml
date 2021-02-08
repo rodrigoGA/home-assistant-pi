@@ -13,12 +13,12 @@ services:
     networks:
       - traefik_proxy
     environment:
-      TZ: 'America/Chicago'
+      TZ: 'America/Montevideo'
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:
-      - './etc-pihole/:/etc/pihole/'
-      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - ./data/pihole-config:/etc/pihole
+      - ./data/dnsmasq-config:/etc/dnsmasq.d
     # Recommended but not required (DHCP needs NET_ADMIN)
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:

@@ -15,30 +15,32 @@ services:
     pihole:
         container_name: pihole
         image: pihole/pihole
-        hostname: "pihole.${INTERNAL_DOMAIN}"
-        restart: unless-stopped
+        restart: always
         environment:
-            TZ: 'Europe/London'
-            WEBPASSWORD: ''
+            TZ: 'America/Montevideo'
             VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
-            ServerIP: 192.168.1.16
-            DNS1: 172.20.0.2#5054
-            DNS2: 1.0.0.1
-            DNSMASQ_LISTENING: local
+            VIRTUAL_PORT: 8081
         volumes:
-            - ${PERSIST_DATA_PATH}/data/pihole-config:/etc/pihole
-            - ${PERSIST_DATA_PATH}/data/dnsmasq-config:/etc/dnsmasq.d
+            - ./data/pihole-config:/etc/pihole
+            - ./data/dnsmasq-config:/etc/dnsmasq.d
         dns:
             - 127.0.0.1
-            - 172.20.0.2
+        # Recommended but not required (DHCP needs NET_ADMIN)
+        #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+            - "67:67/udp"
+            # - 80:80
         networks:
-            net: 
-               ipv4_address: 172.20.0.3
-            lan:
             traefik_proxy:
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
         labels:
             - "traefik.enable=true"
             - "traefik.docker.network=traefik_proxy"
@@ -48,14 +50,14 @@ services:
 
 
 networks:
-    net:
-        name: dns
-        driver: bridge
-        ipam:
-            config:
-                - subnet: 172.20.0.0/24
-    lan:
-        external: true
+    # net:
+    #     name: dns
+    #     driver: bridge
+    #     ipam:
+    #         config:
+    #             - subnet: 172.20.0.0/24
+    # lan:
+    #     external: true
     traefik_proxy:
         external: true
 

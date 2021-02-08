@@ -1,20 +1,31 @@
 version: '2.4'
 
+#docker network create -d macvlan \
+#  --subnet=172.16.86.0/24 \
+#  --gateway=172.16.86.1 \
+#  -o parent=eth0 pub_net
+
+
 services:
     homeassistant:
         container_name: home-assistant
         image: homeassistant/raspberrypi4-homeassistant:stable
         volumes:
-            - ${PERSIST_DATA_PATH}/data/homeassistant-config:/config
+            - ./data/homeassistant-config:/config
             - /etc/localtime:/etc/localtime:ro
-            - /var/run/restartd_signal:/var/run/restartd_signal
+            # - /var/run/restartd_signal:/var/run/restartd_signal
         restart: always
-        network_mode: host
+        # network_mode: host
+        networks:
+            - pub_net
+            - traefik_proxy
         environment:
             TZ: America/Montevideo
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
         labels:
             # config crada por mi 1
             - "traefik.enable=true"
@@ -72,26 +83,26 @@ services:
     #         - "traefik.http.routers.phoscon-ws.service=phoscon-ws"
     #         - "traefik.http.services.phoscon-ws.loadbalancer.server.port=8443"
             
-    mosquitto:
-        container_name: mosquitto
-        image: eclipse-mosquitto
-        volumes:
-            - ${PERSIST_DATA_PATH}/data/mosquitto-data:/mosquitto/data
-            - ${PERSIST_DATA_PATH}/data/mosquitto-config:/mosquitto/config
-        restart: always
-        networks:
-            - net
-            - traefik_proxy
-        logging:
-            options:
-                max-size: 10m
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=traefik_proxy
-            - traefik.tcp.routers.mosquitto.entrypoints=mqtt
-            - traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)
-            - traefik.tcp.routers.mosquitto.service=mosquitto
-            - traefik.tcp.services.mosquitto.loadbalancer.server.port=1883
+    # mosquitto:
+    #     container_name: mosquitto
+    #     image: eclipse-mosquitto
+    #     volumes:
+    #         - ${PERSIST_DATA_PATH}/data/mosquitto-data:/mosquitto/data
+    #         - ${PERSIST_DATA_PATH}/data/mosquitto-config:/mosquitto/config
+    #     restart: always
+    #     networks:
+    #         - net
+    #         - traefik_proxy
+    #     logging:
+    #         options:
+    #             max-size: 10m
+    #     labels:
+    #         - traefik.enable=true
+    #         - traefik.docker.network=traefik_proxy
+    #         - traefik.tcp.routers.mosquitto.entrypoints=mqtt
+    #         - traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)
+    #         - traefik.tcp.routers.mosquitto.service=mosquitto
+    #         - traefik.tcp.services.mosquitto.loadbalancer.server.port=1883
 
 #   influxdb:
 #     container_name: influxdb
@@ -134,8 +145,10 @@ services:
 
 
 networks:
-    net:
-        name: homeassistant
+    pub_net:
+        external: true
+    # net:
+    #     name: homeassistant
     traefik_proxy:
         external: true
 

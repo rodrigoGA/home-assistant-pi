@@ -5,7 +5,7 @@ services:
         container_name: home-assistant
         image: homeassistant/raspberrypi4-homeassistant:stable
         volumes:
-            - homeassistant-config:/config
+            - ${PERSIST_DATA_PATH}/data/homeassistant-config:/config
             - /etc/localtime:/etc/localtime:ro
             - /var/run/restartd_signal:/var/run/restartd_signal
         restart: always
@@ -120,30 +120,3 @@ networks:
     traefik_proxy:
         external: true
 
-
-volumes:
-    homeassistant-config:
-        name: homeassistant-config
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/homeassistant-config"
-    # deconz-config:
-    #     name: deconz-config
-    #     driver: local-persist
-    #     driver_opts:
-    #         mountpoint: "${PERSIST_DATA_PATH}/data/deconz-config"
-    mosquitto-data:
-        name: mosquitto-data
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/mosquitto-data"
-    mosquitto-config:
-        name: mosquitto-config
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/mosquitto-config"
-    mariadb-data:
-        name: mariadb-data
-        driver: local-persist
-        driver_opts:
-            mountpoint: /data/mariadb-data

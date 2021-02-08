@@ -24,6 +24,12 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+      - "traefik.http.routers.pihole.entrypoints=web"
+      - "traefik.http.routers.pihole.service=pihole"
+      - "traefik.http.services.pihole.loadbalancer.server.port=8081"
 
 
 
@@ -74,18 +80,7 @@ services:
 #             # - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
 
 
-# networks:
-#     # net:
-#     #     name: dns
-#     #     driver: bridge
-#     #     ipam:
-#     #         config:
-#     #             - subnet: 172.20.0.0/24
-#     # lan:
-#     #     external: true
-#     traefik_proxy:
-#         external: true
-#     pub_net:
-#         external: true
-
+networks:
+  traefik_proxy:
+    external: true
 

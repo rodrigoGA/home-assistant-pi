@@ -34,9 +34,9 @@ services:
             - "53:53/tcp"
             - "53:53/udp"
             - "67:67/udp"
-        networks:
-            # - pub_net
-            - traefik_proxy
+        # networks:
+        #     # - pub_net
+        #     - traefik_proxy
         logging:
             driver: "json-file"
             options:

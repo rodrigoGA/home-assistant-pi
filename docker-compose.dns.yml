@@ -1,48 +1,75 @@
-version: '2.4'
+version: '3'
 
 services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'America/Chicago'
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    # Volumes store your data between container upgrades
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    # Recommended but not required (DHCP needs NET_ADMIN)
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
-    pihole:
-        container_name: pihole
-        image: pihole/pihole:latest
-        restart: always
-        environment:
-            TZ: 'America/Montevideo'
-            VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
-            VIRTUAL_PORT: 8081
-        volumes:
-            - ./data/pihole-config:/etc/pihole
-            - ./data/dnsmasq-config:/etc/dnsmasq.d
-        dns:
-            - 127.0.0.1
-        # Recommended but not required (DHCP needs NET_ADMIN)
-        #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
-        cap_add:
-            - NET_ADMIN        
-        ports:
-            - "53:53/tcp"
-            - "53:53/udp"
-            - "67:67/udp"
-        # networks:
-        #     # - pub_net
-        #     - traefik_proxy
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "5m"
-                max-file: "10"
-        # labels:
-        #     - "traefik.enable=true"
-        #     - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
-        #     - "traefik.http.routers.pihole.entrypoints=web"
-        #     - "traefik.http.routers.pihole.service=pihole"
-        #     - "traefik.http.services.pihole.loadbalancer.server.port=8081"
 
-            # - "traefik.enable=true"
-            # - "traefik.docker.network=traefik_proxy"
-            # - "traefik.http.routers.pihole-insecure.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
-            # - "traefik.http.routers.pihole-insecure.entryPoints=web"
-            # - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
+
+
+
+# services:
+
+#     pihole:
+#         container_name: pihole
+#         image: pihole/pihole:latest
+#         restart: always
+#         environment:
+#             TZ: 'America/Montevideo'
+#             VIRTUAL_HOST: "pihole.${INTERNAL_DOMAIN}"
+#             VIRTUAL_PORT: 8081
+#         volumes:
+#             - ./data/pihole-config:/etc/pihole
+#             - ./data/dnsmasq-config:/etc/dnsmasq.d
+#         dns:
+#             - 127.0.0.1
+#         # Recommended but not required (DHCP needs NET_ADMIN)
+#         #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+#         cap_add:
+#             - NET_ADMIN        
+#         ports:
+#             - "53:53/tcp"
+#             - "53:53/udp"
+#             - "67:67/udp"
+#         # networks:
+#         #     # - pub_net
+#         #     - traefik_proxy
+#         logging:
+#             driver: "json-file"
+#             options:
+#                 max-size: "5m"
+#                 max-file: "10"
+#         # labels:
+#         #     - "traefik.enable=true"
+#         #     - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+#         #     - "traefik.http.routers.pihole.entrypoints=web"
+#         #     - "traefik.http.routers.pihole.service=pihole"
+#         #     - "traefik.http.services.pihole.loadbalancer.server.port=8081"
+
+#             # - "traefik.enable=true"
+#             # - "traefik.docker.network=traefik_proxy"
+#             # - "traefik.http.routers.pihole-insecure.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+#             # - "traefik.http.routers.pihole-insecure.entryPoints=web"
+#             # - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
 
 
 # networks:

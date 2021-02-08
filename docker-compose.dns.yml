@@ -26,8 +26,8 @@ services:
             DNS2: 1.0.0.1
             DNSMASQ_LISTENING: local
         volumes:
-            - pihole-config:/etc/pihole
-            - dnsmasq-config:/etc/dnsmasq.d
+            - ${PERSIST_DATA_PATH}/data/pihole-config:/etc/pihole
+            - ${PERSIST_DATA_PATH}/data/dnsmasq-config:/etc/dnsmasq.d
         dns:
             - 127.0.0.1
             - 172.20.0.2
@@ -60,14 +60,3 @@ networks:
         external: true
 
 
-volumes:
-    pihole-config:
-        name: pihole-config
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/pihole-config"
-    dnsmasq-config:
-        name: dnsmasq-config
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/dnsmasq-config"

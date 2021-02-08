@@ -42,7 +42,7 @@ services:
         volumes:
             # So that Traefik can listen to the Docker events
             - /var/run/docker.sock:/var/run/docker.sock:ro
-            - traefik-config:/etc/traefik
+            - ${PERSIST_DATA_PATH}/data/traefik-config:/etc/traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.dashboard.rule=Host(`traefik.${INTERNAL_DOMAIN}`)"
@@ -60,7 +60,7 @@ services:
             - traefik_proxy
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - portainer-data:/data
+            - ${PERSIST_DATA_PATH}/data/portainer-data:/data
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.portainer.rule=Host(`portainer.${INTERNAL_DOMAIN}`)"
@@ -100,14 +100,3 @@ networks:
                   gateway: 172.24.0.1
 
 
-volumes:
-    traefik-config:
-        name: traefik-config
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/traefik-config"
-    portainer-data:
-        name: portainer-data
-        driver: local-persist
-        driver_opts:
-            mountpoint: "${PERSIST_DATA_PATH}/data/portainer-data"

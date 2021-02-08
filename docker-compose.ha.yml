@@ -76,8 +76,8 @@ services:
         container_name: mosquitto
         image: eclipse-mosquitto
         volumes:
-            - mosquitto-data:/mosquitto/data
-            - mosquitto-config:/mosquitto/config
+            - ${PERSIST_DATA_PATH}/data/mosquitto-data:/mosquitto/data
+            - ${PERSIST_DATA_PATH}/data/mosquitto-config:/mosquitto/config
         restart: always
         networks:
             - net
@@ -97,7 +97,7 @@ services:
         container_name: database
         image: mariadb:latest
         volumes: 
-            - mariadb-data:/var/lib/mysql
+            - ./data/mariadb-data:/var/lib/mysql
         restart: always
         networks:
             - net

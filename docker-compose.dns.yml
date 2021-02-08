@@ -36,7 +36,6 @@ services:
             - "53:53/tcp"
             - "53:53/udp"
             - "67:67/udp"
-            # - 80:80
         networks:
             # - pub_net
             - traefik_proxy
@@ -47,10 +46,15 @@ services:
                 max-file: "10"
         labels:
             - "traefik.enable=true"
-            - "traefik.docker.network=traefik_proxy"
-            - "traefik.http.routers.pihole-insecure.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.pihole-insecure.entryPoints=web"
-            - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
+            - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+            - "traefik.http.routers.pihole.entrypoints=web"
+            - "traefik.http.routers.pihole.service=pihole"
+            - "traefik.http.services.pihole.loadbalancer.server.port=8081"
+            # - "traefik.enable=true"
+            # - "traefik.docker.network=traefik_proxy"
+            # - "traefik.http.routers.pihole-insecure.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
+            # - "traefik.http.routers.pihole-insecure.entryPoints=web"
+            # - "traefik.http.services.service-pihole.loadbalancer.server.port=8081"
 
 
 networks:

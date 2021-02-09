@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.pihole.rule=Host(`pihole.${INTERNAL_DOMAIN}`)"
       - "traefik.http.routers.pihole.entrypoints=web"
       - "traefik.http.routers.pihole.service=pihole"
-      - "traefik.http.services.pihole.loadbalancer.server.port=8081"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
 
 networks:

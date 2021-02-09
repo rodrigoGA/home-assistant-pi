@@ -27,11 +27,16 @@ services:
                 max-size: "5m"
                 max-file: "10"
         labels:
-            # config crada por mi 1
             - "traefik.enable=true"
-            - "traefik.http.routers.ha-internal.rule=Host(`homeassistant.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.ha-internal.entrypoints=web"
-            - "traefik.http.services.ha.loadbalancer.server.port=8123"
+            - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.${INTERNAL_DOMAIN}`)"
+            - "traefik.http.routers.homeassistant.entrypoints=web"
+            - "traefik.http.routers.homeassistant.service=pihole"
+            - "traefik.http.services.homeassistant.loadbalancer.server.port=8081"
+            # config crada por mi 1
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.ha-internal.rule=Host(`homeassistant.${INTERNAL_DOMAIN}`)"
+            # - "traefik.http.routers.ha-internal.entrypoints=web"
+            # - "traefik.http.services.ha.loadbalancer.server.port=8123"
             #configuracion creda por mi 2
             # - "traefik.enable=true"
             # - "traefik.http.routers.ha.rule=Host(`homeassistant.${INTERNAL_DOMAIN}`)"

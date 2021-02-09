@@ -12,7 +12,7 @@ services:
         image: homeassistant/raspberrypi4-homeassistant:stable
         volumes:
             - ./data/homeassistant-config:/config
-            - /etc/localtime:/etc/localtime:ro
+            #- /etc/localtime:/etc/localtime:ro
             # - /var/run/restartd_signal:/var/run/restartd_signal
         restart: always
         # network_mode: host

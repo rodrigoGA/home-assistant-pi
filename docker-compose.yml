@@ -3,36 +3,10 @@ version: '2.4'
 services:
     reverse-proxy:
         container_name: reverse-proxy
-        # The official v2.2 Traefik docker image
-        image: traefik:v2.2
-        command:
-            - "--global.sendanonymoususage=false"
-            - "--api.dashboard=true"
-            - "--entrypoints.web.address=:80"
-            - "--entrypoints.websecure.address=:443"
-            - "--entrypoints.mqtt.address=:1883"
-            - "--entrypoints.mysql.address=:3306"
-            - "--entrypoints.phosconws.address=:8443"
-            - "--providers.docker=true"
-            - "--providers.docker.exposedbydefault=false"
-            - "--providers.docker.network=traefik_proxy"
-            - "--providers.file=true"
-            - "--providers.file.filename=/etc/traefik/providers-config.toml"
-            - "--certificatesresolvers.le=true"
-            - "--certificatesresolvers.le.acme.email=${LETSENCRYPT_ACME_EMAIL}"
-            - "--certificatesresolvers.le.acme.storage=/etc/traefik/ssl/acme.json"
-            - "--certificatesresolvers.le.acme.httpchallenge=true"
-            - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+        image: jwilder/nginx-proxy
         restart: always
-        environment:
-            ACME_EMAIL: "${LETSENCRYPT_ACME_EMAIL}"
-            ADDRESS: "192.168.11.10"
-            HA_DOMAIN_NAME: "${EXTERNAL_DOMAIN}"
-            LAN_DOMAIN_NAME: "${INTERNAL_DOMAIN}"
         networks:
             - traefik_proxy
-        extra_hosts: 
-            - host.docker.internal:172.17.0.1
         ports:
             - 80:80
             - 443:443
@@ -40,14 +14,10 @@ services:
             # - 3306:3306 # mysql
             # - 8443:8443 # phoscon deconz
         volumes:
-            # So that Traefik can listen to the Docker events
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - ${PERSIST_DATA_PATH}/data/traefik-config:/etc/traefik
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.dashboard.rule=Host(`traefik.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.dashboard.entrypoints=web"
-            - "traefik.http.routers.dashboard.service=api@internal"
+            - "/var/run/docker.sock:/tmp/docker.sock:ro"
+            - "./vhost.d:/etc/nginx/vhost.d:ro"
+            - ./data/nginx/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
+            - ./data/nginx/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
         logging:
             options:
                 max-size: 10m
@@ -58,15 +28,15 @@ services:
         restart: always
         networks:
             - traefik_proxy
+        environment:
+            - VIRTUAL_HOST=portainer.mired
+            - VIRTUAL_PORT=9000
+            - CERT_NAME=nginx-selfsigned 
+        ports:
+            - 8000:8000
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - ./data/portainer-data:/data
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.portainer.rule=Host(`portainer.${INTERNAL_DOMAIN}`)"
-            - "traefik.http.routers.portainer.entrypoints=web"
-            - "traefik.http.routers.portainer.service=portainer"
-            - "traefik.http.services.portainer.loadbalancer.server.port=9000"
         logging:
             options:
                 max-size: 10m

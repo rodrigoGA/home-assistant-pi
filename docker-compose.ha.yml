@@ -37,10 +37,86 @@ services:
             - VIRTUAL_PORT=8122
             - CERT_NAME=nginx-selfsigned
         networks:
-            - traefik_proxy
+          traefik_proxy:
+            ipv4_address: 172.24.0.5
         expose:
             - 8122
         restart: unless-stopped
+
+
+
+
+
+
+
+                
+    deconz:
+        container_name: deconz
+        image: marthoc/deconz
+        volumes:
+            - ./data/deconz-config:/root/.local/share/dresden-elektronik/deCONZ
+            - /etc/localtime:/etc/localtime:ro
+        restart: always
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.2
+        environment:
+            - VIRTUAL_HOST=phoscon.mired
+            - VIRTUAL_PORT=8480
+            - CERT_NAME=nginx-selfsigned
+            - DECONZ_WEB_PORT=8480
+            - DECONZ_DEVICE=/dev/ttyACM0
+            - DECONZ_WS_PORT=8443
+            - DECONZ_VNC_MODE=1
+        ports:
+            - 8443:8443
+            - 8480:8480
+        devices:
+            - /dev/ttyACM0
+        logging:
+            options:
+                max-size: 10m
+            
+    mosquitto:
+        container_name: mosquitto
+        image: eclipse-mosquitto
+        volumes:
+            - ./data/mosquitto-data:/mosquitto/data
+            - ./data/mosquitto-config:/mosquitto/config
+        restart: always
+        networks:
+            net:
+                ipv4_address: 172.18.0.2
+            traefik_proxy:
+                ipv4_address: 172.24.0.7
+        environment:
+            - VIRTUAL_HOST=mqtt
+            - VIRTUAL_PORT=1883
+        logging:
+            options:
+                max-size: 10m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -191,8 +267,10 @@ services:
 networks:
     pub_net:
         external: true
-    # net:
-    #     name: homeassistant
+    net:
+        name: homeassistant
     traefik_proxy:
         external: true
+
+
 

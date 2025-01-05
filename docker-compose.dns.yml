@@ -9,7 +9,8 @@ services:
       - "53:53/udp"
       - "67:67/udp"
     networks:
-      - traefik_proxy
+      traefik_proxy:
+        ipv4_address: 172.24.0.4
     environment:
       - VIRTUAL_HOST=pihole.mired
       - VIRTUAL_PORT=80

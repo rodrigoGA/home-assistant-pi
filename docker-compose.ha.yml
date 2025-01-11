@@ -57,6 +57,7 @@ services:
             - ./data/deconz-config:/root/.local/share/dresden-elektronik/deCONZ
             - /etc/localtime:/etc/localtime:ro
         restart: always
+        privileged: true
         networks:
           traefik_proxy:
             ipv4_address: 172.24.0.2

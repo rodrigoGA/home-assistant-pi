@@ -81,14 +81,20 @@ services:
         container_name: mosquitto
         image: eclipse-mosquitto
         volumes:
-            - ./data/mosquitto-data:/mosquitto/data
-            - ./data/mosquitto-config:/mosquitto/config
+            # - ./data/mosquitto-data:/mosquitto/data
+            # - ./data/mosquitto-config:/mosquitto/config
+            - ./data/mosquitto/config:/mosquitto/config
+            - ./data/mosquitto/data:/mosquitto/data
+            - ./data/mosquitto/log:/mosquitto/log
         restart: always
         networks:
         #     net:
         #         ipv4_address: 172.18.0.2
             traefik_proxy:
                 ipv4_address: 172.24.0.7
+        ports:
+        - 1883:1883
+        - 9001:9001
         environment:
             - VIRTUAL_HOST=mqtt
             - VIRTUAL_PORT=1883

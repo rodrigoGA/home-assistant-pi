@@ -85,8 +85,8 @@ services:
             - ./data/mosquitto-config:/mosquitto/config
         restart: always
         networks:
-            net:
-                ipv4_address: 172.18.0.2
+        #     net:
+        #         ipv4_address: 172.18.0.2
             traefik_proxy:
                 ipv4_address: 172.24.0.7
         environment:
@@ -95,6 +95,27 @@ services:
         logging:
             options:
                 max-size: 10m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

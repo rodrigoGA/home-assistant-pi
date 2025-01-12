@@ -57,7 +57,7 @@ services:
         container_name: deconz
         image: marthoc/deconz
         volumes:
-            - ./data/deconz-config:/root/.local/share/dresden-elektronik/deCONZ
+            - ./data/deconz:/root/.local/share/dresden-elektronik/deCONZ
             - /etc/localtime:/etc/localtime:ro
         restart: always
         privileged: true

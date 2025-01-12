@@ -16,9 +16,9 @@ services:
             # - 8443:8443 # phoscon deconz
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock:ro"
-            - "./vhost.d:/etc/nginx/vhost.d:ro"
-            - ./data/nginx/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
-            - ./data/nginx/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
+            - "./data/reverse-proxy/vhost.d:/etc/nginx/vhost.d:ro"
+            - ./data/reverse-proxy/certs/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
+            - ./data/reverse-proxy/certs/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
         logging:
             options:
                 max-size: 10m
@@ -38,7 +38,7 @@ services:
             - 8000:8000
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - ./data/portainer-data:/data
+            - ./data/portainer:/data
         logging:
             options:
                 max-size: 10m

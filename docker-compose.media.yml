@@ -1,0 +1,91 @@
+version: '2.4'
+
+services:
+
+    kavita:
+        image: jvmilazz0/kavita:latest    # Using the stable branch from the official dockerhub repo.
+        container_name: kavita
+        volumes:
+            - /media/DataTemp/media:/data
+            - ./data/kavita:/kavita/config     
+        environment:
+            - VIRTUAL_HOST=kavita.mired
+            - VIRTUAL_PORT=80
+            - CERT_NAME=nginx-selfsigned
+            - PUID=1000
+            - PGID=1000
+            - TZ=America/Montevideo
+            - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+        # ports:
+        #     - "5000:5000"
+        restart: unless-stopped
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.11
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"
+                max-file: "10"
+
+
+    readarr:
+        image: lscr.io/linuxserver/readarr:develop
+        container_name: readarr
+        environment:
+            - VIRTUAL_HOST=readarr.mired
+            - VIRTUAL_PORT=80
+            - CERT_NAME=nginx-selfsigned
+            - PUID=1000                # ID de usuario en tu sistema
+            - PGID=1000                # ID de grupo en tu sistema
+            - TZ=America/Montevideo
+        volumes:
+            - ./data/readarr:/config    # Configuración de Readarr
+            - /media/DataTemp/media:/data
+        # ports:
+        #     - 8787:8787                  # Puerto de interfaz web de Readarr
+        restart: unless-stopped
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.12
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"
+                max-file: "10"
+
+
+
+
+
+
+#   qbittorrent:
+#     image: lscr.io/linuxserver/qbittorrent:latest
+#     container_name: qbittorrent
+#     environment:
+#       - PUID=1000
+#       - PGID=1000
+#       - TZ=Europe/Madrid
+#       - WEBUI_PORT=8080
+#     volumes:
+#       - ./config/qbittorrent:/config
+#       - ./data:/data # Carpeta compartida para descargas
+#     ports:
+#       - 8080:8080                  # Puerto para interfaz web de qBittorrent
+#       - 6881:6881                  # Puerto para conexiones entrantes
+#       - 6881:6881/udp              # Puerto UDP para conexiones entrantes
+#     restart: unless-stopped
+
+
+
+
+
+
+
+
+networks:
+    traefik_proxy:
+        external: true
+
+
+

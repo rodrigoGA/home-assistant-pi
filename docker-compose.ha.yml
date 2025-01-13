@@ -1,11 +1,5 @@
 version: '2.4'
 
-#docker network create -d macvlan \
-#  --subnet=172.16.86.0/24 \
-#  --gateway=172.16.86.1 \
-#  -o parent=eth0 pub_net
-
-
 services:
 
     homeassistant:
@@ -25,8 +19,10 @@ services:
         environment:
             - TZ=America/Montevideo
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
         
      #nginx no anda con el network_mode: host entonces esto hace el reenvio
     hass-socat:
@@ -45,8 +41,8 @@ services:
         expose:
             - 8122
         restart: unless-stopped
-
-
+        logging:
+            driver: none
 
 
 
@@ -78,8 +74,10 @@ services:
         devices:
             - /dev/ttyACM0
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
             
     mosquitto:
         container_name: mosquitto
@@ -103,8 +101,10 @@ services:
             - VIRTUAL_HOST=mqtt
             - VIRTUAL_PORT=1883
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
 
 
 

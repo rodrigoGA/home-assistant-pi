@@ -20,28 +20,32 @@ services:
             - ./data/reverse-proxy/certs/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
             - ./data/reverse-proxy/certs/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
         logging:
+            driver: "json-file"
             options:
-                max-size: 10m
+                max-size: "5m"
+                max-file: "10"
     
-    portainer:
-        container_name: portainer
-        image: portainer/portainer:1.24.0
-        restart: always
-        networks:
-          traefik_proxy:
-            ipv4_address: 172.24.0.6            
-        environment:
-            - VIRTUAL_HOST=portainer.mired
-            - VIRTUAL_PORT=9000
-            - CERT_NAME=nginx-selfsigned 
-        ports:
-            - 8000:8000
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ./data/portainer:/data
-        logging:
-            options:
-                max-size: 10m
+    # portainer:
+    #     container_name: portainer
+    #     image: portainer/portainer:1.24.0
+    #     restart: always
+    #     networks:
+    #       traefik_proxy:
+    #         ipv4_address: 172.24.0.6            
+    #     environment:
+    #         - VIRTUAL_HOST=portainer.mired
+    #         - VIRTUAL_PORT=9000
+    #         - CERT_NAME=nginx-selfsigned 
+    #     ports:
+    #         - 8000:8000
+    #     volumes:
+    #         - /var/run/docker.sock:/var/run/docker.sock
+    #         - ./data/portainer:/data
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
 
     # dyndns:
     #     container_name: dyndns

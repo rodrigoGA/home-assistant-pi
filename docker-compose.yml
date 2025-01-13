@@ -24,6 +24,11 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        deploy:
+            resources:
+                limits:
+                    memory: '128m'
+        cpu_shares: 279
 
     homer:
         image: b4bz/homer
@@ -46,6 +51,11 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        deploy:
+            resources:
+                limits:
+                    memory: '64m'
+        cpu_shares: 279
     
     # portainer:
     #     container_name: portainer

@@ -2,54 +2,59 @@ version: '2.4'
 
 services:
 
-    calibre-web:
-        image: linuxserver/calibre-web:latest
-        container_name: calibre-web
+    komga:
+        image: gotson/komga
+        container_name: komga
+        ports:
+        - 25600:25600
+        user: "1000:1000"
         environment:
-          - VIRTUAL_HOST=calibre.mired        # Dominio del servicio
-          - VIRTUAL_PORT=8083                # Puerto interno expuesto por el contenedor
-          - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
-          - PUID=1000                        # ID de usuario (asegúrate de que coincida con tu sistema)
-          - PGID=1000                        # ID de grupo
-          - TZ=America/Montevideo            # Zona horaria
-        volumes:
-          - ./data/calibre-web:/config       # Configuración de Calibre-Web
-          - /media/DataTemp/media:/media/DataTemp/media    # Biblioteca de libros
-        networks:
-          traefik_proxy:
-            ipv4_address: 172.24.0.16        # Dirección IP dentro de la red Docker
+            - VIRTUAL_HOST=komga.mired        # Dominio del servicio
+            - VIRTUAL_PORT=25600                # Puerto interno expuesto por el contenedor
+            - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
+            - PUID=1000                        # ID de usuario (asegúrate de que coincida con tu sistema)
+            - PGID=1000                        # ID de grupo
+            - TZ=America/Montevideo 
+            # - JAVA_TOOL_OPTIONS=-Xmx2g  # Asignar hasta 2 GB de RAM
         restart: unless-stopped
-        logging:
-          driver: "json-file"
-          options:
-            max-size: "5m"
-            max-file: "10"
-
-    kavita:
-        image: jvmilazz0/kavita:latest    # Using the stable branch from the official dockerhub repo.
-        container_name: kavita
         volumes:
-            - /media/DataTemp/media:/media/DataTemp/media
-            - ./data/kavita:/kavita/config     
-        environment:
-            - VIRTUAL_HOST=kavita.mired
-            - VIRTUAL_PORT=5000
-            - CERT_NAME=nginx-selfsigned
-            - PUID=1000
-            - PGID=1000
-            - TZ=America/Montevideo
-            - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-        # ports:
-        #     - "5000:5000"
-        restart: unless-stopped
+            - ./data/calibre-web:/config       # Configuración de Calibre-Web
+            - /media/DataTemp/media:/media/DataTemp/media    # Biblioteca de libros
         networks:
-          traefik_proxy:
-            ipv4_address: 172.24.0.11
+            traefik_proxy:
+                ipv4_address: 172.24.0.16        # Dirección IP dentro de la red Docker
         logging:
             driver: "json-file"
             options:
                 max-size: "5m"
                 max-file: "10"
+
+
+    # kavita:
+    #     image: jvmilazz0/kavita:latest    # Using the stable branch from the official dockerhub repo.
+    #     container_name: kavita
+    #     volumes:
+    #         - /media/DataTemp/media:/media/DataTemp/media
+    #         - ./data/kavita:/kavita/config     
+    #     environment:
+    #         - VIRTUAL_HOST=kavita.mired
+    #         - VIRTUAL_PORT=5000
+    #         - CERT_NAME=nginx-selfsigned
+    #         - PUID=1000
+    #         - PGID=1000
+    #         - TZ=America/Montevideo
+    #         - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+    #     # ports:
+    #     #     - "5000:5000"
+    #     restart: unless-stopped
+    #     networks:
+    #       traefik_proxy:
+    #         ipv4_address: 172.24.0.11
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
 
 
     readarr:

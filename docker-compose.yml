@@ -24,6 +24,28 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+
+    homer:
+        image: b4bz/homer
+        container_name: homer
+        volumes:
+        - ./data/homer:/www/assets # Make sure your local config directory exists
+        user: 1000:1000 # default
+        restart: unless-stopped
+        networks:
+            traefik_proxy:
+                ipv4_address: 172.24.0.18
+        environment:
+            - VIRTUAL_HOST=homer.mired
+            - VIRTUAL_PORT=8080
+            - CERT_NAME=nginx-selfsigned
+            - TZ=America/Montevideo
+            - INIT_ASSETS=1 # default, requires the config directory to be writable for the container user (see user option)
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"
+                max-file: "10"
     
     # portainer:
     #     container_name: portainer

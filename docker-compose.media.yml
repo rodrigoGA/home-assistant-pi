@@ -10,7 +10,7 @@ services:
             - ./data/kavita:/kavita/config     
         environment:
             - VIRTUAL_HOST=kavita.mired
-            - VIRTUAL_PORT=80
+            - VIRTUAL_PORT=5000
             - CERT_NAME=nginx-selfsigned
             - PUID=1000
             - PGID=1000
@@ -34,7 +34,7 @@ services:
         container_name: readarr
         environment:
             - VIRTUAL_HOST=readarr.mired
-            - VIRTUAL_PORT=80
+            - VIRTUAL_PORT=8787
             - CERT_NAME=nginx-selfsigned
             - PUID=1000                # ID de usuario en tu sistema
             - PGID=1000                # ID de grupo en tu sistema

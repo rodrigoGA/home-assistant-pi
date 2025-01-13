@@ -18,7 +18,7 @@ services:
             # - JAVA_TOOL_OPTIONS=-Xmx2g  # Asignar hasta 2 GB de RAM
         restart: unless-stopped
         volumes:
-            - ./data/calibre-web:/config       # Configuración de Calibre-Web
+            - ./data/komga:/config       # Configuración de Calibre-Web
             - /media/DataTemp/media:/media/DataTemp/media    # Biblioteca de libros
         networks:
             traefik_proxy:

@@ -154,6 +154,10 @@ services:
             - TZ=America/Montevideo
         # ports:
         # - 13378:80
+        restart: unless-stopped
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.20
         volumes:
         - ./data/audiobookshelf/metadata:/metadata
         - ./data/audiobookshelf/config:/config

@@ -144,6 +144,23 @@ services:
 
 
 
+
+    audiobookshelf:
+        image: ghcr.io/advplyr/audiobookshelf:latest
+        environment:
+            - VIRTUAL_HOST=audiobookshelf.mired
+            - VIRTUAL_PORT=80
+            - CERT_NAME=nginx-selfsigned
+            - TZ=America/Montevideo
+        # ports:
+        # - 13378:80
+        volumes:
+        - ./data/audiobookshelf/metadata:/metadata
+        - ./data/audiobookshelf/config:/config
+        - /media/DataTemp/media:/media/DataTemp/media # Carpeta compartida para descargas
+
+
+
 networks:
     traefik_proxy:
         external: true

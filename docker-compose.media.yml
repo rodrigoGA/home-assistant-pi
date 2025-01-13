@@ -59,22 +59,33 @@ services:
 
 
 
-#   qbittorrent:
-#     image: lscr.io/linuxserver/qbittorrent:latest
-#     container_name: qbittorrent
-#     environment:
-#       - PUID=1000
-#       - PGID=1000
-#       - TZ=Europe/Madrid
-#       - WEBUI_PORT=8080
-#     volumes:
-#       - ./config/qbittorrent:/config
-#       - ./data:/data # Carpeta compartida para descargas
-#     ports:
-#       - 8080:8080                  # Puerto para interfaz web de qBittorrent
-#       - 6881:6881                  # Puerto para conexiones entrantes
-#       - 6881:6881/udp              # Puerto UDP para conexiones entrantes
-#     restart: unless-stopped
+    qbittorrent:
+        image: lscr.io/linuxserver/qbittorrent:latest
+        container_name: qbittorrent
+        environment:
+            - VIRTUAL_HOST=qbittorrent.mired
+            - VIRTUAL_PORT=8080
+            - CERT_NAME=nginx-selfsigned
+            - PUID=1000                # ID de usuario en tu sistema
+            - PGID=1000                # ID de grupo en tu sistema
+            - TZ=America/Montevideo
+            - WEBUI_PORT=8080
+        volumes:
+        - ./data/qbittorrent:/config
+        - ./media/DataTemp/media:/data # Carpeta compartida para descargas
+        ports:
+        # - 8080:8080                  # Puerto para interfaz web de qBittorrent
+        - 6881:6881                  # Puerto para conexiones entrantes
+        - 6881:6881/udp              # Puerto UDP para conexiones entrantes
+        restart: unless-stopped
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.13
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"
+                max-file: "10"
 
 
 

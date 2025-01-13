@@ -23,6 +23,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 279
         
      #nginx no anda con el network_mode: host entonces esto hace el reenvio
     hass-socat:
@@ -43,6 +45,8 @@ services:
         restart: unless-stopped
         logging:
             driver: none
+        # No memory limit support
+        cpu_shares: 279
 
 
 
@@ -78,6 +82,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 279
             
     mosquitto:
         container_name: mosquitto
@@ -105,6 +111,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 279
 
 
 

@@ -28,6 +28,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 279
 
 
     # kavita:
@@ -81,6 +83,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 100
 
 
 
@@ -114,6 +118,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 100
 
 
 
@@ -140,6 +146,8 @@ services:
             options:
                 max-size: "5m"
                 max-file: "10"
+        # No memory limit support
+        cpu_shares: 100
 
 
 
@@ -159,9 +167,11 @@ services:
           traefik_proxy:
             ipv4_address: 172.24.0.20
         volumes:
-        - ./data/audiobookshelf/metadata:/metadata
-        - ./data/audiobookshelf/config:/config
-        - /media/DataTemp/media:/media/DataTemp/media # Carpeta compartida para descargas
+            - ./data/audiobookshelf/metadata:/metadata
+            - ./data/audiobookshelf/config:/config
+            - /media/DataTemp/media:/media/DataTemp/media # Carpeta compartida para descargas
+        # No memory limit support
+        cpu_shares: 279
 
 
 

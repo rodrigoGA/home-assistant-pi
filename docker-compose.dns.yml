@@ -31,6 +31,11 @@ services:
       options:
         max-size: "5m"
         max-file: "10"
+    # No memory limit support
+    cpu_shares: 1024
+
+
+
 networks:
   traefik_proxy:
     external: true

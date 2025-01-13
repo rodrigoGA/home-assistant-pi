@@ -72,7 +72,7 @@ services:
             - WEBUI_PORT=8080
         volumes:
         - ./data/qbittorrent:/config
-        - ./media/DataTemp/media:/data # Carpeta compartida para descargas
+        - /media/DataTemp/media:/data # Carpeta compartida para descargas
         ports:
         # - 8080:8080                  # Puerto para interfaz web de qBittorrent
         - 6881:6881                  # Puerto para conexiones entrantes

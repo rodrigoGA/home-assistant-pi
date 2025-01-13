@@ -17,7 +17,7 @@ services:
           - /media/DataTemp/media:/media/DataTemp/media    # Biblioteca de libros
         networks:
           traefik_proxy:
-            ipv4_address: 172.24.0.15        # Dirección IP dentro de la red Docker
+            ipv4_address: 172.24.0.16        # Dirección IP dentro de la red Docker
         restart: unless-stopped
         logging:
           driver: "json-file"

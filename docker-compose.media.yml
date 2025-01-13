@@ -90,6 +90,27 @@ services:
 
 
 
+    prowlarr:
+        image: lscr.io/linuxserver/prowlarr:latest
+        container_name: prowlarr
+        environment:
+            - VIRTUAL_HOST=prowlarr.mired
+            - VIRTUAL_PORT=9696
+            - CERT_NAME=nginx-selfsigned
+            - TZ=America/Montevideo
+        volumes:
+            - ./data/prowlarr:/config
+        ports:
+            - 9696:9696
+        restart: unless-stopped
+        networks:
+          traefik_proxy:
+            ipv4_address: 172.24.0.14
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"
+                max-file: "10"
 
 
 

@@ -18,10 +18,10 @@ services:
             # - JAVA_TOOL_OPTIONS=-Xmx2g  # Asignar hasta 2 GB de RAM
         restart: unless-stopped
         volumes:
-            - ./data/komga:/config       # Configuración de Calibre-Web
-            - /media/DataTemp/media:/media/DataTemp/media    # Biblioteca de libros
+            - ./data/komga:/config       
+            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
         networks:
-            traefik_proxy:
+            my_network:
                 ipv4_address: 172.24.0.16        # Dirección IP dentro de la red Docker
         logging:
             driver: "json-file"
@@ -50,7 +50,7 @@ services:
     #     #     - "5000:5000"
     #     restart: unless-stopped
     #     networks:
-    #       traefik_proxy:
+    #       my_network:
     #         ipv4_address: 172.24.0.11
     #     logging:
     #         driver: "json-file"
@@ -72,11 +72,12 @@ services:
         volumes:
             - ./data/readarr:/config    # Configuración de Readarr
             - /media/DataTemp/media:/media/DataTemp/media
+            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
         # ports:
         #     - 8787:8787                  # Puerto de interfaz web de Readarr
         restart: unless-stopped
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.12
         logging:
             driver: "json-file"
@@ -103,15 +104,16 @@ services:
             - TZ=America/Montevideo
             - WEBUI_PORT=8080
         volumes:
-        - ./data/qbittorrent:/config
-        - /media/DataTemp/media:/media/DataTemp/media # Carpeta compartida para descargas
+            - ./data/qbittorrent:/config
+            - /media/DataTemp/media:/media/DataTemp/media
+            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
         ports:
         # - 8080:8080                  # Puerto para interfaz web de qBittorrent
         - 6881:6881                  # Puerto para conexiones entrantes
         - 6881:6881/udp              # Puerto UDP para conexiones entrantes
         restart: unless-stopped
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.13
         logging:
             driver: "json-file"
@@ -134,12 +136,13 @@ services:
             - TZ=America/Montevideo
         volumes:
             - /media/DataTemp/media:/media/DataTemp/media
+            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
             - ./data/prowlarr:/config
         ports:
             - 9696:9696
         restart: unless-stopped
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.14
         logging:
             driver: "json-file"
@@ -164,19 +167,20 @@ services:
         # - 13378:80
         restart: unless-stopped
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.20
         volumes:
             - ./data/audiobookshelf/metadata:/metadata
             - ./data/audiobookshelf/config:/config
-            - /media/DataTemp/media:/media/DataTemp/media # Carpeta compartida para descargas
+            - /media/DataTemp/media:/media/DataTemp/media
+            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
         # No memory limit support
         cpu_shares: 279
 
 
 
 networks:
-    traefik_proxy:
+    my_network:
         external: true
 
 

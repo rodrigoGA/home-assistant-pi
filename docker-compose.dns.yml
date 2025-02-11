@@ -9,7 +9,7 @@ services:
       - "53:53/udp"
       - "67:67/udp"
     networks:
-      traefik_proxy:
+      my_network:
         ipv4_address: 172.24.0.4
     environment:
       - VIRTUAL_HOST=pihole.mired
@@ -37,6 +37,6 @@ services:
 
 
 networks:
-  traefik_proxy:
+  my_network:
     external: true
 

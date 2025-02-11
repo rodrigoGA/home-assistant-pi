@@ -6,7 +6,6 @@ services:
         container_name: home-assistant
         image: ghcr.io/home-assistant/home-assistant:stable
         volumes:
-            # - ./data/homeassistant-config:/config
             - ./data/homeassistant/config:/config
             - /etc/localtime:/etc/localtime:ro
             - /run/dbus:/run/dbus:ro
@@ -38,7 +37,7 @@ services:
             - VIRTUAL_PORT=8122
             - CERT_NAME=nginx-selfsigned
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.5
         expose:
             - 8122
@@ -61,8 +60,10 @@ services:
             - /etc/localtime:/etc/localtime:ro
         restart: always
         privileged: true
+        depends_on:
+            - mosquitto
         networks:
-          traefik_proxy:
+          my_network:
             ipv4_address: 172.24.0.2
         environment:
             - VIRTUAL_HOST=phoscon.mired
@@ -89,8 +90,6 @@ services:
         container_name: mosquitto
         image: eclipse-mosquitto
         volumes:
-            # - ./data/mosquitto-data:/mosquitto/data
-            # - ./data/mosquitto-config:/mosquitto/config
             - ./data/mosquitto/config:/mosquitto/config
             - ./data/mosquitto/data:/mosquitto/data
             - ./data/mosquitto/log:/mosquitto/log
@@ -98,7 +97,7 @@ services:
         networks:
         #     net:
         #         ipv4_address: 172.18.0.2
-            traefik_proxy:
+            my_network:
                 ipv4_address: 172.24.0.7
         ports:
         - 1883:1883
@@ -116,34 +115,10 @@ services:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 networks:
     pub_net:
         external: true
-    # net:
-    #     name: homeassistant
-    traefik_proxy:
+    my_network:
         external: true
 
 

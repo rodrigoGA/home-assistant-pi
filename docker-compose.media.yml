@@ -31,7 +31,7 @@ services:
         # No memory limit support
         cpu_shares: 279
 
-
+    # este parece peor que komga
     # kavita:
     #     image: jvmilazz0/kavita:latest    # Using the stable branch from the official dockerhub repo.
     #     container_name: kavita
@@ -59,98 +59,98 @@ services:
     #             max-file: "10"
 
 
-    readarr:
-        image: lscr.io/linuxserver/readarr:develop
-        container_name: readarr
-        environment:
-            - VIRTUAL_HOST=readarr.mired
-            - VIRTUAL_PORT=8787
-            - CERT_NAME=nginx-selfsigned
-            - PUID=1000                # ID de usuario en tu sistema
-            - PGID=1000                # ID de grupo en tu sistema
-            - TZ=America/Montevideo
-        volumes:
-            - ./data/readarr:/config    # Configuración de Readarr
-            - /media/DataTemp/media:/media/DataTemp/media
-            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
-        # ports:
-        #     - 8787:8787                  # Puerto de interfaz web de Readarr
-        restart: unless-stopped
-        networks:
-          my_network:
-            ipv4_address: 172.24.0.12
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "5m"
-                max-file: "10"
-        # No memory limit support
-        cpu_shares: 100
+    # readarr:
+    #     image: lscr.io/linuxserver/readarr:develop
+    #     container_name: readarr
+    #     environment:
+    #         - VIRTUAL_HOST=readarr.mired
+    #         - VIRTUAL_PORT=8787
+    #         - CERT_NAME=nginx-selfsigned
+    #         - PUID=1000                # ID de usuario en tu sistema
+    #         - PGID=1000                # ID de grupo en tu sistema
+    #         - TZ=America/Montevideo
+    #     volumes:
+    #         - ./data/readarr:/config    # Configuración de Readarr
+    #         - /media/DataTemp/media:/media/DataTemp/media
+    #         - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
+    #     # ports:
+    #     #     - 8787:8787                  # Puerto de interfaz web de Readarr
+    #     restart: unless-stopped
+    #     networks:
+    #       my_network:
+    #         ipv4_address: 172.24.0.12
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
+    #     # No memory limit support
+    #     cpu_shares: 100
 
 
 
 
 
 
-    qbittorrent:
-        image: lscr.io/linuxserver/qbittorrent:latest
-        container_name: qbittorrent
-        environment:
-            - VIRTUAL_HOST=qbittorrent.mired
-            - VIRTUAL_PORT=8080
-            - CERT_NAME=nginx-selfsigned
-            - PUID=1000                # ID de usuario en tu sistema
-            - PGID=1000                # ID de grupo en tu sistema
-            - TZ=America/Montevideo
-            - WEBUI_PORT=8080
-        volumes:
-            - ./data/qbittorrent:/config
-            - /media/DataTemp/media:/media/DataTemp/media
-            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
-        ports:
-        # - 8080:8080                  # Puerto para interfaz web de qBittorrent
-        - 6881:6881                  # Puerto para conexiones entrantes
-        - 6881:6881/udp              # Puerto UDP para conexiones entrantes
-        restart: unless-stopped
-        networks:
-          my_network:
-            ipv4_address: 172.24.0.13
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "5m"
-                max-file: "10"
-        # No memory limit support
-        cpu_shares: 100
+    # qbittorrent:
+    #     image: lscr.io/linuxserver/qbittorrent:latest
+    #     container_name: qbittorrent
+    #     environment:
+    #         - VIRTUAL_HOST=qbittorrent.mired
+    #         - VIRTUAL_PORT=8080
+    #         - CERT_NAME=nginx-selfsigned
+    #         - PUID=1000                # ID de usuario en tu sistema
+    #         - PGID=1000                # ID de grupo en tu sistema
+    #         - TZ=America/Montevideo
+    #         - WEBUI_PORT=8080
+    #     volumes:
+    #         - ./data/qbittorrent:/config
+    #         - /media/DataTemp/media:/media/DataTemp/media
+    #         - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
+    #     ports:
+    #     # - 8080:8080                  # Puerto para interfaz web de qBittorrent
+    #     - 6881:6881                  # Puerto para conexiones entrantes
+    #     - 6881:6881/udp              # Puerto UDP para conexiones entrantes
+    #     restart: unless-stopped
+    #     networks:
+    #       my_network:
+    #         ipv4_address: 172.24.0.13
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
+    #     # No memory limit support
+    #     cpu_shares: 100
 
 
 
 
-    prowlarr:
-        image: lscr.io/linuxserver/prowlarr:latest
-        container_name: prowlarr
-        environment:
-            - VIRTUAL_HOST=prowlarr.mired
-            - VIRTUAL_PORT=9696
-            - CERT_NAME=nginx-selfsigned
-            - TZ=America/Montevideo
-        volumes:
-            - /media/DataTemp/media:/media/DataTemp/media
-            - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
-            - ./data/prowlarr:/config
-        ports:
-            - 9696:9696
-        restart: unless-stopped
-        networks:
-          my_network:
-            ipv4_address: 172.24.0.14
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "5m"
-                max-file: "10"
-        # No memory limit support
-        cpu_shares: 100
+    # prowlarr:
+    #     image: lscr.io/linuxserver/prowlarr:latest
+    #     container_name: prowlarr
+    #     environment:
+    #         - VIRTUAL_HOST=prowlarr.mired
+    #         - VIRTUAL_PORT=9696
+    #         - CERT_NAME=nginx-selfsigned
+    #         - TZ=America/Montevideo
+    #     volumes:
+    #         - /media/DataTemp/media:/media/DataTemp/media
+    #         - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
+    #         - ./data/prowlarr:/config
+    #     ports:
+    #         - 9696:9696
+    #     restart: unless-stopped
+    #     networks:
+    #       my_network:
+    #         ipv4_address: 172.24.0.14
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
+    #     # No memory limit support
+    #     cpu_shares: 100
 
 
 

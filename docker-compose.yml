@@ -1,24 +1,62 @@
 version: '2.4'
 
 services:
-    reverse-proxy:
-        container_name: reverse-proxy
-        image: jwilder/nginx-proxy
+    # reverse-proxy:
+    #     container_name: reverse-proxy
+    #     image: jwilder/nginx-proxy
+    #     restart: always
+    #     networks:
+    #       my_network:
+    #         ipv4_address: 172.24.0.3
+    #     ports:
+    #         - 80:80
+    #         - 443:443
+    #         # - 1883:1883 # mosquito
+    #         # - 3306:3306 # mysql
+    #         # - 8443:8443 # phoscon deconz
+    #     volumes:
+    #         - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    #         - "./data/reverse-proxy/vhost.d:/etc/nginx/vhost.d:ro"
+    #         - ./data/reverse-proxy/certs/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
+    #         - ./data/reverse-proxy/certs/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
+    #     logging:
+    #         driver: "json-file"
+    #         options:
+    #             max-size: "5m"
+    #             max-file: "10"
+    #     # No memory limit support
+    #     cpu_shares: 279
+
+    traefik:
+        image: traefik:v2.9
+        container_name: traefik
         restart: always
-        networks:
-          my_network:
-            ipv4_address: 172.24.0.3
-        ports:
-            - 80:80
-            - 443:443
-            # - 1883:1883 # mosquito
-            # - 3306:3306 # mysql
-            # - 8443:8443 # phoscon deconz
+        # Se usa el socket Docker para detectar dinámicamente los contenedores
         volumes:
-            - "/var/run/docker.sock:/tmp/docker.sock:ro"
-            - "./data/reverse-proxy/vhost.d:/etc/nginx/vhost.d:ro"
-            - ./data/reverse-proxy/certs/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
-            - ./data/reverse-proxy/certs/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./data/traefik/letsencrypt:/letsencrypt
+            - ./data/traefik/certs:/certs
+        command:
+            # Proveedor Docker y red a usar
+            - "--providers.docker=true"
+            - "--providers.docker.network=my_network"
+            # Definición de entrypoints:
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.immich-ext.address=:8081"
+            - "--entrypoints.internal.address=:443"
+            # Agregar el certificado por defecto para el entrypoint interno:
+            - "--entrypoints.internal.tls.defaultCertificate.certFile=/certs/nginx-selfsigned.crt"
+            - "--entrypoints.internal.tls.defaultCertificate.keyFile=/certs/nginx-selfsigned.key"
+            # Configuración de Let's Encrypt para dominios públicos (por ejemplo, para el entrypoint immich-ext)
+            - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+            - "--certificatesresolvers.myresolver.acme.email=ro.goab@gmail.com"
+            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+
+        ports:
+            # Estos puertos se abren en la Raspberry Pi:
+            - "80:80"           # Para ACME y redirección a HTTPS
+            - "443:443"         # Para el tráfico interno (acceso por homer.mired e immich.mired)
+            - "8081:8081"       # Para el acceso externo a Immich (mired.tplinkdns.com:8081)
         logging:
             driver: "json-file"
             options:
@@ -26,6 +64,14 @@ services:
                 max-file: "10"
         # No memory limit support
         cpu_shares: 279
+        networks:
+          my_network:
+            ipv4_address: 172.24.0.3
+
+
+
+
+
 
     homer:
         image: b4bz/homer
@@ -38,11 +84,17 @@ services:
             my_network:
                 ipv4_address: 172.24.0.18
         environment:
-            - VIRTUAL_HOST=homer.mired
-            - VIRTUAL_PORT=8080
-            - CERT_NAME=nginx-selfsigned
+            # - VIRTUAL_HOST=homer.mired
+            # - VIRTUAL_PORT=8080
+            # - CERT_NAME=nginx-selfsigned
             - TZ=America/Montevideo
             - INIT_ASSETS=1 # default, requires the config directory to be writable for the container user (see user option)
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.homer.rule=Host(`homer.mired`)"
+            - "traefik.http.routers.homer.entrypoints=internal"
+            - "traefik.http.routers.homer.tls=true"
+            - "traefik.http.services.homer.loadbalancer.server.port=8080"
         logging:
             driver: "json-file"
             options:

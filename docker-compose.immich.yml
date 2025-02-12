@@ -21,6 +21,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+        - VIRTUAL_HOST=immich.mired        # Dominio del servicio
+        - VIRTUAL_PORT=2283                # Puerto interno expuesto por el contenedor
+        - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
     ports:
       - '2283:2283'
     depends_on:

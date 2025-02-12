@@ -9,13 +9,19 @@ services:
         - 25600:25600
         user: "1000:1000"
         environment:
-            - VIRTUAL_HOST=komga.mired        # Dominio del servicio
-            - VIRTUAL_PORT=25600                # Puerto interno expuesto por el contenedor
-            - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
+            # - VIRTUAL_HOST=komga.mired        # Dominio del servicio
+            # - VIRTUAL_PORT=25600                # Puerto interno expuesto por el contenedor
+            # - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
             - PUID=1000                        # ID de usuario (asegúrate de que coincida con tu sistema)
             - PGID=1000                        # ID de grupo
             - TZ=America/Montevideo 
             # - JAVA_TOOL_OPTIONS=-Xmx2g  # Asignar hasta 2 GB de RAM
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.komga.loadbalancer.server.port=25600"
+            - "traefik.http.routers.komga.rule=Host(`komga.mired`)"
+            - "traefik.http.routers.komga.entrypoints=internal"
+            - "traefik.http.routers.komga.tls=true"        
         restart: unless-stopped
         volumes:
             - ./data/komga:/config       
@@ -159,10 +165,16 @@ services:
     audiobookshelf:
         image: ghcr.io/advplyr/audiobookshelf:latest
         environment:
-            - VIRTUAL_HOST=audiobookshelf.mired
-            - VIRTUAL_PORT=80
-            - CERT_NAME=nginx-selfsigned
+            # - VIRTUAL_HOST=audiobookshelf.mired
+            # - VIRTUAL_PORT=80
+            # - CERT_NAME=nginx-selfsigned
             - TZ=America/Montevideo
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.audiobookshelf.loadbalancer.server.port=80"
+            - "traefik.http.routers.audiobookshelf.rule=Host(`audiobookshelf.mired`)"
+            - "traefik.http.routers.audiobookshelf.entrypoints=internal"
+            - "traefik.http.routers.audiobookshelf.tls=true"     
         # ports:
         # - 13378:80
         restart: unless-stopped

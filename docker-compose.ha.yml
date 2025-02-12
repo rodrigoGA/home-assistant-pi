@@ -36,6 +36,12 @@ services:
             - VIRTUAL_HOST=homeassistant.mired
             - VIRTUAL_PORT=8122
             - CERT_NAME=nginx-selfsigned
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.homeassistant.loadbalancer.server.port=8122"
+            - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.mired`)"
+            - "traefik.http.routers.homeassistant.entrypoints=internal"
+            - "traefik.http.routers.homeassistant.tls=true"     
         networks:
           my_network:
             ipv4_address: 172.24.0.5
@@ -66,13 +72,19 @@ services:
           my_network:
             ipv4_address: 172.24.0.2
         environment:
-            - VIRTUAL_HOST=phoscon.mired
-            - VIRTUAL_PORT=8480
-            - CERT_NAME=nginx-selfsigned
+            # - VIRTUAL_HOST=phoscon.mired
+            # - VIRTUAL_PORT=8480
+            # - CERT_NAME=nginx-selfsigned
             - DECONZ_WEB_PORT=8480
             - DECONZ_DEVICE=/dev/ttyACM0
             - DECONZ_WS_PORT=8443
             - DECONZ_VNC_MODE=1
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.phoscon.loadbalancer.server.port=8480"
+            - "traefik.http.routers.phoscon.rule=Host(`phoscon.mired`)"
+            - "traefik.http.routers.phoscon.entrypoints=internal"
+            - "traefik.http.routers.phoscon.tls=true"     
         ports:
             - 8443:8443
             - 8480:8480

@@ -42,17 +42,18 @@ services:
             # Proveedor Docker y red a usar
             - "--providers.docker=true"
             - "--providers.docker.network=my_network"
-            # Habilitar el provider file con la configuración dinámica
             - "--providers.file.filename=/dynamic_conf/dynamic.yaml"
             # Definición de entrypoints:
             - "--entrypoints.web.address=:80"
-            - "--entrypoints.immich-ext.address=:8081"
             - "--entrypoints.internal.address=:443"
+            - "--entrypoints.immich-ext.address=:8081"
+            # - "--api.dashboard=true"
+            # - "--entrypoints.dashboard.address=:8080"
             # Configuración de Let's Encrypt para dominios públicos (por ejemplo, para el entrypoint immich-ext)
             - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
             - "--certificatesresolvers.myresolver.acme.email=ro.goab@gmail.com"
-            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-
+            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"    
+            # - "--api.insecure=true"
         ports:
             # Estos puertos se abren en la Raspberry Pi:
             - "80:80"           # Para ACME y redirección a HTTPS

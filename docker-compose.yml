@@ -93,10 +93,10 @@ services:
             - INIT_ASSETS=1 # default, requires the config directory to be writable for the container user (see user option)
         labels:
             - "traefik.enable=true"
+            - "traefik.http.services.homer.loadbalancer.server.port=8080"
             - "traefik.http.routers.homer.rule=Host(`homer.mired`)"
             - "traefik.http.routers.homer.entrypoints=internal"
             - "traefik.http.routers.homer.tls=true"
-            - "traefik.http.services.homer.loadbalancer.server.port=8080"
         logging:
             driver: "json-file"
             options:

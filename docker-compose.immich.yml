@@ -21,10 +21,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
-    environment:
-        - VIRTUAL_HOST=immich.mired        # Dominio del servicio
-        - VIRTUAL_PORT=2283                # Puerto interno expuesto por el contenedor
-        - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
+    # environment:
+    #     - VIRTUAL_HOST=immich.mired        # Dominio del servicio
+    #     - VIRTUAL_PORT=2283                # Puerto interno expuesto por el contenedor
+    #     - CERT_NAME=nginx-selfsigned       # Certificado para Traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.immich.loadbalancer.server.port=2283"
+      # Acceso externo:
+      - "traefik.http.routers.immich-ext.rule=Host(`mired.tplinkdns.com`)"
+      - "traefik.http.routers.immich-ext.entrypoints=immich-ext"
+      - "traefik.http.routers.immich-ext.tls=true"
+      - "traefik.http.routers.immich-ext.tls.certresolver=myresolver"
+      # Acceso interno:
+      - "traefik.http.routers.immich-internal.rule=Host(`immich.mired`)"
+      - "traefik.http.routers.immich-internal.entrypoints=internal"
+      - "traefik.http.routers.immich-internal.tls=true"
     ports:
       - '2283:2283'
     depends_on:

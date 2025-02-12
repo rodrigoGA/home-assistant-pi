@@ -186,6 +186,7 @@ services:
             - ./data/audiobookshelf/config:/config
             - /media/DataTemp/media:/media/DataTemp/media
             - /media/DataRaid/Media/Libros:/media/DataRaid/Media/Libros
+            - /media/DataRaid/Media/Audios:/media/DataRaid/Media/Audios
         # No memory limit support
         cpu_shares: 279
 

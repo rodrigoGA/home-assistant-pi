@@ -36,17 +36,18 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - ./data/traefik/letsencrypt:/letsencrypt
             - ./data/traefik/certs:/certs
+            - ./data/traefik/dynamic.yaml:/dynamic_conf/dynamic.yaml  # Archivo de configuración dinámica
+
         command:
             # Proveedor Docker y red a usar
             - "--providers.docker=true"
             - "--providers.docker.network=my_network"
+            # Habilitar el provider file con la configuración dinámica
+            - "--providers.file.filename=/dynamic_conf/dynamic.yaml"
             # Definición de entrypoints:
             - "--entrypoints.web.address=:80"
             - "--entrypoints.immich-ext.address=:8081"
             - "--entrypoints.internal.address=:443"
-            # Agregar el certificado por defecto para el entrypoint interno:
-            - "--entrypoints.internal.tls.defaultCertificate.certFile=/certs/nginx-selfsigned.crt"
-            - "--entrypoints.internal.tls.defaultCertificate.keyFile=/certs/nginx-selfsigned.key"
             # Configuración de Let's Encrypt para dominios públicos (por ejemplo, para el entrypoint immich-ext)
             - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
             - "--certificatesresolvers.myresolver.acme.email=ro.goab@gmail.com"

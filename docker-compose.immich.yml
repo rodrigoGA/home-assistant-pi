@@ -52,7 +52,7 @@ services:
     networks:
       my_network:
         ipv4_address: 172.24.0.22
-    cpu_shares: 100
+    cpu_shares: 50
 
   redis:
     container_name: immich_redis

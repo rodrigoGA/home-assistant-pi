@@ -12,10 +12,16 @@ services:
       my_network:
         ipv4_address: 172.24.0.4
     environment:
-      - VIRTUAL_HOST=pihole.mired
-      - VIRTUAL_PORT=80
-      - CERT_NAME=nginx-selfsigned
+      # - VIRTUAL_HOST=pihole.mired
+      # - VIRTUAL_PORT=80
+      # - CERT_NAME=nginx-selfsigned
       - TZ=America/Montevideo
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.mired`)"
+      - "traefik.http.routers.pihole.entrypoints=internal"
+      - "traefik.http.routers.pihole.tls=true"    
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # Volumes store your data between container upgrades
     volumes:

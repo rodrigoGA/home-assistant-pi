@@ -11,4 +11,22 @@ sudo docker exec -it [dockername] bash
 wget -O - https://get.hacs.xyz | bash -
 ```
 7. configurar luces
-8. 
+
+
+
+# crear backup immich
+```
+docker exec -t immich_postgres pg_dumpall --clean --if-exists --username=postgres \
+  | gzip > "/media/DataRaid/Media/PhotoLibrary/backups/immich-db-backup-$(date +%s%3N).sql.gz"
+```
+
+# Actaulizar immich
+```
+docker compose -f docker-compose.immich.yml stop
+
+docker compose -f docker-compose.immich.yml pull && docker compose -f docker-compose.immich.yml up -d
+
+docker image prune
+
+```
+

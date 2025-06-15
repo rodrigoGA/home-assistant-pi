@@ -33,8 +33,8 @@ services:
       - "traefik.http.routers.immich-ext.entrypoints=immich-ext"
       - "traefik.http.routers.immich-ext.tls=true"
       - "traefik.http.routers.immich-ext.tls.certresolver=myresolver"
-      - "traefik.http.routers.immich-ext.middlewares=largeUploadBuffer@file"
-      - "traefik.http.services.immich.loadbalancer.serversTransport=largeUploads"
+      # - "traefik.http.routers.immich-ext.middlewares=largeUploadBuffer@file"
+      # - "traefik.http.services.immich.loadbalancer.serversTransport=largeUploads"
       # Acceso interno:
       - "traefik.http.routers.immich-internal.rule=Host(`immich.mired`)"
       - "traefik.http.routers.immich-internal.entrypoints=internal"

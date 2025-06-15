@@ -10,7 +10,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
             - /run/dbus:/run/dbus:ro
             # - /var/run/restartd_signal:/var/run/restartd_signal
-        restart: always
+        restart: unless-stopped
         network_mode: host
         privileged: true
         expose:
@@ -64,7 +64,7 @@ services:
         volumes:
             - ./data/deconz:/root/.local/share/dresden-elektronik/deCONZ
             - /etc/localtime:/etc/localtime:ro
-        restart: always
+        restart: unless-stopped
         privileged: true
         depends_on:
             - mosquitto
@@ -105,7 +105,7 @@ services:
             - ./data/mosquitto/config:/mosquitto/config
             - ./data/mosquitto/data:/mosquitto/data
             - ./data/mosquitto/log:/mosquitto/log
-        restart: always
+        restart: unless-stopped
         networks:
         #     net:
         #         ipv4_address: 172.18.0.2
